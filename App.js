@@ -14,16 +14,6 @@ export default class App extends React.Component {
           backgroundColor="blue"
           barStyle="light-content"
         />
-        <Navigator
-          initialRoute={{statusBarHidden: true}}
-          renderScene={(route, navigator) =>
-          <View>
-            <StatusBar hidden={route.statusBarHidden} />
-            </View>
-          }
-          />
-  </View>
-    );
   }
 }
 
