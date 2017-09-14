@@ -7,22 +7,8 @@ export default class App extends React.Component {
       <View style={styles.container}>
         <Text>Open up App.js to start working on your app!</Text>
         <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu. UPDATED</Text>
+        <Text>Shake your phone to open the developer menu.</Text>
       </View>
-      <View>
-        <StatusBar
-          backgroundColor="blue"
-          barStyle="light-content"
-        />
-        <Navigator
-          initialRoute={{statusBarHidden: true}}
-          renderScene={(route, navigator) =>
-          <View>
-            <StatusBar hidden={route.statusBarHidden} />
-            </View>
-          }
-          />
-  </View>
     );
   }
 }
