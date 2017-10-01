@@ -34,17 +34,17 @@ export const SignedIn = TabNavigator(
     Home: {
       screen: Home,
       navigationOptions: {
-        tabBarLabel: "Item Info",
-        tabBarIcon: ({ tintColor }) =>
-          <FontAwesome name="commenting" size={30} color={tintColor} />
+        tabBarLabel: "Item Info"
+        /*tabBarIcon: ({ tintColor }) =>
+          <FontAwesome name="commenting" size={30} color={tintColor} />*/
       }
     },
     Profile: {
       screen: Profile,
       navigationOptions: {
-        tabBarLabel: "Profile",
-        tabBarIcon: ({ tintColor }) =>
-          <FontAwesome name="user-circle" size={30} color={tintColor} />
+        tabBarLabel: "Profile"
+        /*tabBarIcon: ({ tintColor }) =>
+          <FontAwesome name="user-circle" size={30} color={tintColor} />*/
       }
     }
   },
