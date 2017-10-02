@@ -2,7 +2,7 @@ import React from "react";
 import { createRootNavigator } from "./router";
 import { isSignedIn } from "./auth";
 
-export default class App extends React.Component {
+export default class LogIn extends React.Component {
   constructor(props) {
     super(props);
 
