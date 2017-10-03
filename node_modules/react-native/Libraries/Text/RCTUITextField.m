@@ -12,7 +12,11 @@
 #import <React/RCTUtils.h>
 #import <React/UIView+React.h>
 
-@implementation RCTUITextField
+#import "RCTBackedTextInputDelegateAdapter.h"
+
+@implementation RCTUITextField {
+  RCTBackedTextFieldDelegateAdapter *_textInputDelegateAdapter;
+}
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -21,6 +25,8 @@
                                              selector:@selector(_textDidChange)
                                                  name:UITextFieldTextDidChangeNotification
                                                object:self];
+
+    _textInputDelegateAdapter = [[RCTBackedTextFieldDelegateAdapter alloc] initWithTextField:self];
   }
 
   return self;
@@ -105,6 +111,23 @@
 }
 
 #pragma mark - Overrides
+
+- (void)setSelectedTextRange:(UITextRange *)selectedTextRange
+{
+  [super setSelectedTextRange:selectedTextRange];
+  [_textInputDelegateAdapter selectedTextRangeWasSet];
+}
+
+- (void)setSelectedTextRange:(UITextRange *)selectedTextRange notifyDelegate:(BOOL)notifyDelegate
+{
+  if (!notifyDelegate) {
+    // We have to notify an adapter that following selection change was initiated programmatically,
+    // so the adapter must not generate a notification for it.
+    [_textInputDelegateAdapter skipNextTextInputDidChangeSelectionEventWithTextRange:selectedTextRange];
+  }
+
+  [super setSelectedTextRange:selectedTextRange];
+}
 
 - (void)paste:(id)sender
 {

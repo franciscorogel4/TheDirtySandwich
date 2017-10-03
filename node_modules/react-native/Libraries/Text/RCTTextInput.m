@@ -16,6 +16,8 @@
 #import <React/RCTUIManager.h>
 #import <React/UIView+React.h>
 
+#import "RCTTextSelection.h"
+
 @implementation RCTTextInput {
   CGSize _previousContentSize;
 }
@@ -58,6 +60,108 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithFrame:(CGRect)frame)
   // We apply `borderInsets` as `backedTextInputView` layout offset.
   self.backedTextInputView.frame = UIEdgeInsetsInsetRect(self.bounds, reactBorderInsets);
   [self setNeedsLayout];
+}
+
+- (RCTTextSelection *)selection
+{
+  id<RCTBackedTextInputViewProtocol> backedTextInput = self.backedTextInputView;
+  UITextRange *selectedTextRange = backedTextInput.selectedTextRange;
+  return [[RCTTextSelection new] initWithStart:[backedTextInput offsetFromPosition:backedTextInput.beginningOfDocument toPosition:selectedTextRange.start]
+                                           end:[backedTextInput offsetFromPosition:backedTextInput.beginningOfDocument toPosition:selectedTextRange.end]];
+}
+
+- (void)setSelection:(RCTTextSelection *)selection
+{
+  if (!selection) {
+    return;
+  }
+
+  id<RCTBackedTextInputViewProtocol> backedTextInput = self.backedTextInputView;
+
+  UITextRange *previousSelectedTextRange = backedTextInput.selectedTextRange;
+  UITextPosition *start = [backedTextInput positionFromPosition:backedTextInput.beginningOfDocument offset:selection.start];
+  UITextPosition *end = [backedTextInput positionFromPosition:backedTextInput.beginningOfDocument offset:selection.end];
+  UITextRange *selectedTextRange = [backedTextInput textRangeFromPosition:start toPosition:end];
+
+  NSInteger eventLag = _nativeEventCount - _mostRecentEventCount;
+  if (eventLag == 0 && ![previousSelectedTextRange isEqual:selectedTextRange]) {
+    [backedTextInput setSelectedTextRange:selectedTextRange notifyDelegate:NO];
+  } else if (eventLag > RCTTextUpdateLagWarningThreshold) {
+    RCTLogWarn(@"Native TextInput(%@) is %zd events ahead of JS - try to make your JS faster.", backedTextInput.text, eventLag);
+  }
+}
+
+#pragma mark - RCTBackedTextInputDelegate
+
+- (BOOL)textInputShouldBeginEditing
+{
+  return YES;
+}
+
+- (void)textInputDidBeginEditing
+{
+  if (_clearTextOnFocus) {
+    self.backedTextInputView.text = @"";
+  }
+
+  if (_selectTextOnFocus) {
+    [self.backedTextInputView selectAll:nil];
+  }
+
+  [_eventDispatcher sendTextEventWithType:RCTTextEventTypeFocus
+                                 reactTag:self.reactTag
+                                     text:self.backedTextInputView.text
+                                      key:nil
+                               eventCount:_nativeEventCount];
+}
+
+- (BOOL)textInputShouldReturn
+{
+  return _blurOnSubmit;
+}
+
+- (void)textInputDidReturn
+{
+  [_eventDispatcher sendTextEventWithType:RCTTextEventTypeSubmit
+                                 reactTag:self.reactTag
+                                     text:self.backedTextInputView.text
+                                      key:nil
+                               eventCount:_nativeEventCount];
+}
+
+- (void)textInputDidChangeSelection
+{
+  if (!_onSelectionChange) {
+    return;
+  }
+
+  RCTTextSelection *selection = self.selection;
+  _onSelectionChange(@{
+    @"selection": @{
+      @"start": @(selection.start),
+      @"end": @(selection.end),
+    },
+  });
+}
+
+- (BOOL)textInputShouldEndEditing
+{
+  return YES;
+}
+
+- (void)textInputDidEndEditing
+{
+  [_eventDispatcher sendTextEventWithType:RCTTextEventTypeEnd
+                                 reactTag:self.reactTag
+                                     text:self.backedTextInputView.text
+                                      key:nil
+                               eventCount:_nativeEventCount];
+
+  [_eventDispatcher sendTextEventWithType:RCTTextEventTypeBlur
+                                 reactTag:self.reactTag
+                                     text:self.backedTextInputView.text
+                                      key:nil
+                               eventCount:_nativeEventCount];
 }
 
 #pragma mark - Content Size (in Yoga terms, without any insets)
@@ -133,7 +237,7 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithFrame:(CGRect)frame)
 
 #pragma mark - Accessibility
 
-- (UIView *)reactAccessibleView
+- (UIView *)reactAccessibilityElement
 {
   return self.backedTextInputView;
 }

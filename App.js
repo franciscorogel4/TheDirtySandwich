@@ -1,19 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Main from './willem-wf3/Main';
+import LogIn from './scacela-wf5/InitialScreen';
 
 export default class App extends React.Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu. UPDATED</Text>
-      </View>
-      <View>
-        <StatusBar
-          backgroundColor="blue"
-          barStyle="light-content"
-        />
+      <LogIn/>
+    );
   }
 }
 
