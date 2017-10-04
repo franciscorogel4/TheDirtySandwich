@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, FlatList, StatusBar, Alert } from 'react-native';
 import ListingCell from './custom_components/listingCell';
-
 import { SearchBar } from 'react-native-elements';
 
 export default class Main extends React.Component {

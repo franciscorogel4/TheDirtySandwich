@@ -6,7 +6,7 @@ import LogIn from './scacela-wf5/InitialScreen';
 export default class App extends React.Component {
   render() {
     return (
-      <View/>
+      <Main/>
     );
   }
 }
