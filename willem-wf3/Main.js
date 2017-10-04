@@ -1,37 +1,49 @@
 import React from 'react';
 import { StyleSheet, Text, View, FlatList, StatusBar, Alert } from 'react-native';
-import ListingCell from './custom_components/listingCell';
 import { SearchBar } from 'react-native-elements';
+import { createFilteredArray } from './custom_components/SearchFilter';
+import ListingCell from './custom_components/ListingCell';
+
+let pic = {
+  uri: 'https://upload.wikimedia.org/wikipedia/commons/d/de/Bananavarieties.jpg'
+};
+
+var cells = [{title: 'A', description: 'B', source: pic, key: 'a'}, {title: 'A', description: 'D', source: pic, key: 'b'},
+{title: 'E', description: 'F', source: pic, key: 'c'}, {title: 'G', description: 'H', source: pic, key: 'd'},
+{title: 'I', description: 'A', source: pic, key: 'e'}, {title: 'A', description: 'L', source: pic, key: 'f'},
+{title: 'M', description: 'N', source: pic, key: 'g'}, {title: 'O', description: 'P', source: pic, key: 'h'},
+{title: 'Q', description: 'A', source: pic, key: 'i'}, {title: 'A', description: 'T', source: pic, key: 'j'},
+{title: 'U', description: 'A', source: pic, key: 'k'}];
 
 export default class Main extends React.Component {
 
-  render() {
-    let pic = {
-      uri: 'https://upload.wikimedia.org/wikipedia/commons/d/de/Bananavarieties.jpg'
+  constructor(props){
+    super(props);
+
+    this.state = {
+      filteredCellArray: cells
     };
+  }
 
-    let cells = [{title: 'Item', description: 'thing', source: pic, key: 'a'}, {title: 'Item', description: 'thing', source: pic, key: 'b'},
-    {title: 'Item', description: 'thing', source: pic, key: 'c'}, {title: 'Item', description: 'thing', source: pic, key: 'd'},
-    {title: 'Item', description: 'thing', source: pic, key: 'e'}, {title: 'Item', description: 'thing', source: pic, key: 'f'},
-    {title: 'Item', description: 'thing', source: pic, key: 'g'}, {title: 'Item', description: 'thing', source: pic, key: 'h'},
-    {title: 'Item', description: 'thing', source: pic, key: 'i'}, {title: 'Item', description: 'thing', source: pic, key: 'j'},
-    {title: 'Item', description: 'thing', source: pic, key: 'k'}];
-
-    var listingCellArray = cells.map((item) => {
-      return(<ListingCell key={item.key} title={item.title} description={item.description} source={item.source}/>);
-    });
-
-    test = () => {
-      Alert.alert('Hello');
-    }
-
+  render() {
     return (
       <View style={styles.container}>
         <StatusBar hidden={true}/>
-        <SearchBar/>
-        <FlatList data={listingCellArray} renderItem={({item}) => <View>{item}</View>}/>
+        <SearchBar
+          selectTextOnFocus={true} placeholder='Search'placeholderTextColor={'#8086939e'}
+          onChangeText={(searchText) => {this.searchTextChanged(searchText);}}
+        />
+        <FlatList data={this.state.filteredCellArray} extraData={this.state}
+          renderItem={({item}) =>
+            <ListingCell key={item.key} title={item.title} description={item.description} source={item.source}/>
+          }
+        />
       </View>
     );
+  }
+
+  searchTextChanged(newText){
+    this.setState({filteredCellArray: createFilteredArray(newText.toLowerCase(), cells)});
   }
 }
 
