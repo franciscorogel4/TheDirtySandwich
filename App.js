@@ -1,12 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Main from './willem-wf3/Main';
-import LogIn from './scacela-wf5/InitialScreen';
+import TabBar from './willem-wf3/TabBar';
+import InitialScreen from './scacela-wf5/InitialScreen';
 
 export default class App extends React.Component {
   render() {
     return (
-      <Main/>
+      <TabBar/>
     );
   }
 }
