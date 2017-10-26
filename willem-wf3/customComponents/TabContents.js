@@ -36,7 +36,7 @@ export default class TabContents extends React.Component{
   }
 
   componentWillMount(){
-    fire.database().ref('listings').once('value').then(
+    fire.database().ref('listings/' + this.props.item).once('value').then(
       (data) => {
         var dbListings = [];
         data.forEach((node) => {

@@ -8,7 +8,7 @@ import InitialScreen from './scacela-wf5/InitialScreen';
 export default class App extends React.Component {
   render() {
     return (
-      <TabContents/>
+      <TabNav/>
     );
   }
 }
