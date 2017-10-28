@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, FlatList, StatusBar } from 'react-native';
-import { SearchBar } from 'react-native-elements';
+import { SearchBar, Card } from 'react-native-elements';
 import ListingCell from './ListingCell';
 import fire from './Fire';
 
@@ -13,6 +13,9 @@ export default class TabContents extends React.Component{
       masterCellArray: []
     };
   }
+  /* use for 'renderItem'
+  <ListingCell key={item.key} title={item.title} description={item.description} source={item.source}/>
+  */
 
   render() {
     return (
@@ -23,8 +26,14 @@ export default class TabContents extends React.Component{
           onChangeText={(searchText) => {this.searchTextChanged(searchText);}}
         />
         <FlatList data={this.state.filteredCellArray} extraData={this.state}
-          renderItem={({item}) =>
-            <ListingCell key={item.key} title={item.title} description={item.description} source={item.source}/>
+          renderItem={
+            ({item}) => {
+              return(
+                <Card image={{uri: item.uri}} title={item.title}>
+                  <Text>{item.description}</Text>
+                </Card>
+              );
+            }
           }
         />
       </View>
@@ -90,5 +99,9 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'steelblue'
+  },
+  image:{
+    height: 100,
+    width: 100
   }
 });

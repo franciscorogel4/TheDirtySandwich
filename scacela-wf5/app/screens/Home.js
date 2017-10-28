@@ -21,14 +21,6 @@ const datacarousel = [
   />
 */
 
-
-
-
-
-
-
-
-
 const images = [
   {
     key: 1,

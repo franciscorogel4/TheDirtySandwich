@@ -82,4 +82,4 @@ const TabNav = TabNavigator({
     initialRouteName: 'Books'
 });
 
-  export default TabNav;
+export default TabNav;
