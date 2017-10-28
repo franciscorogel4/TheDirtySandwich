@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, FlatList, StatusBar } from 'react-native';
 import { SearchBar, Card } from 'react-native-elements';
+import { FontAwesome } from '@expo/vector-icons';
+import Icon from '@expo/vector-icons/MaterialIcons';
 import ListingCell from './ListingCell';
 import fire from './Fire';
 
@@ -21,10 +23,15 @@ export default class TabContents extends React.Component{
     return (
       <View style={styles.container}>
         <StatusBar hidden={true}/>
-        <SearchBar
-          selectTextOnFocus={true} placeholder='Search'placeholderTextColor={'#8086939e'}
-          onChangeText={(searchText) => {this.searchTextChanged(searchText);}}
-        />
+        <View style={styles.topBar}>
+            <SearchBar containerStyle={{flex: 1}}
+              selectTextOnFocus={true} placeholder='Search'placeholderTextColor={'#8086939e'}
+              onChangeText={(searchText) => {this.searchTextChanged(searchText);}}
+            />
+            <View style={styles.profileButton}>
+              <FontAwesome name='user' size={32} color='white'/>
+            </View>
+        </View>
         <FlatList data={this.state.filteredCellArray} extraData={this.state}
           renderItem={
             ({item}) => {
@@ -50,12 +57,19 @@ export default class TabContents extends React.Component{
         var dbListings = [];
         data.forEach((node) => {
           dbListings.push(node.val());
+          /*
+          fire.storage().ref().child(node.val().uri).getDownloadURL().then((url) => {
+            console.log('Retrieved url: ' + url);
+          }).catch((error) => {
+            console.log(error.code);
+          });
+          */
         });
         this.setState({masterCellArray: dbListings, filteredCellArray: dbListings});
       },
       (error) => {
         console.log('there was an error: ');
-        console.log(error);
+        console.log(error.code);
       }
     );
   }
@@ -100,8 +114,14 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: 'steelblue'
   },
-  image:{
-    height: 100,
-    width: 100
+  topBar: {
+    flexDirection: 'row',
+    height: 60
+  },
+  profileButton: {
+    flex: 0.15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'dimgrey'
   }
 });
