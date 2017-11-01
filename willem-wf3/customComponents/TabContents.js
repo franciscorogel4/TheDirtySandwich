@@ -6,6 +6,7 @@ import fire from './Fire';
 
 export default class TabContents extends React.Component{
 
+
   constructor(props){
     super(props);
     this.state = {
@@ -42,6 +43,10 @@ export default class TabContents extends React.Component{
 
   searchTextChanged(newText){
     this.setState({filteredCellArray: this.createFilteredArray(newText.toLowerCase(), this.state.masterCellArray)});
+  }
+
+  componentDidUpdate(){
+    console.log('component DID update!');
   }
 
   componentWillMount(){
