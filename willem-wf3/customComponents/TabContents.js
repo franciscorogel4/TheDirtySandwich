@@ -2,8 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, View, FlatList, StatusBar } from 'react-native';
 import { SearchBar, Card } from 'react-native-elements';
 import { FontAwesome } from '@expo/vector-icons';
-import Icon from '@expo/vector-icons/MaterialIcons';
-import ListingCell from './ListingCell';
 import fire from './Fire';
 
 export default class TabContents extends React.Component{
@@ -15,9 +13,6 @@ export default class TabContents extends React.Component{
       masterCellArray: []
     };
   }
-  /* use for 'renderItem'
-  <ListingCell key={item.key} title={item.title} description={item.description} source={item.source}/>
-  */
 
   render() {
     return (
@@ -25,24 +20,22 @@ export default class TabContents extends React.Component{
         <StatusBar hidden={true}/>
         <View style={styles.topBar}>
             <SearchBar containerStyle={{flex: 1}}
-              selectTextOnFocus={true} placeholder='Search'placeholderTextColor={'#8086939e'}
+              selectTextOnFocus={true} placeholder='Search' placeholderTextColor={'#8086939e'}
               onChangeText={(searchText) => {this.searchTextChanged(searchText);}}
             />
             <View style={styles.profileButton}>
               <FontAwesome name='user' size={32} color='white'/>
             </View>
         </View>
-        <FlatList data={this.state.filteredCellArray} extraData={this.state}
-          renderItem={
-            ({item}) => {
-              return(
-                <Card image={{uri: item.uri}} title={item.title}>
-                  <Text>{item.description}</Text>
-                </Card>
-              );
+          <FlatList style={{flex: 1}} data={this.state.filteredCellArray} extraData={this.state}
+            renderItem={
+              ({item}) => {
+                return(
+                  <Card image={{uri: item.uri}} title={item.title}/>
+                );
+              }
             }
-          }
-        />
+          />
       </View>
     );
   }
@@ -57,7 +50,7 @@ export default class TabContents extends React.Component{
         var dbListings = [];
         data.forEach((node) => {
           dbListings.push(node.val());
-          /*
+          /* this is for getting the download url
           fire.storage().ref().child(node.val().uri).getDownloadURL().then((url) => {
             console.log('Retrieved url: ' + url);
           }).catch((error) => {
@@ -115,6 +108,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'steelblue'
   },
   topBar: {
+    flex: 0.1,
     flexDirection: 'row',
     height: 60
   },
@@ -122,6 +116,6 @@ const styles = StyleSheet.create({
     flex: 0.15,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'dimgrey'
+    backgroundColor: '#393E42'
   }
 });

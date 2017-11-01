@@ -1,11 +1,15 @@
 import React from 'react';
 import { Text } from 'react-native';
 import { TabNavigator, TabBarBottom } from 'react-navigation';
+import { Entypo, MaterialCommunityIcons, FontAwesome, Ionicons } from '@expo/vector-icons';
 import TabContents from './customComponents/TabContents';
 
 class BookTab extends React.Component{
   static navigationOptions = {
-    tabBarLabel: 'Books'
+    tabBarLabel: 'Books',
+    tabBarIcon: () => (
+      <Entypo name='book' size={24}/>
+    )
   };
   render(){
     return(
@@ -16,7 +20,10 @@ class BookTab extends React.Component{
 
 class TutorTab extends React.Component{
   static navigationOptions = {
-    tabBarLabel: 'Tutoring'
+    tabBarLabel: 'Tutoring',
+    tabBarIcon: () => (
+      <Entypo name='graduation-cap' size={24}/>
+    )
   };
   render(){
     return(
@@ -27,7 +34,10 @@ class TutorTab extends React.Component{
 
 class FurnitureTab extends React.Component{
   static navigationOptions = {
-    tabBarLabel: 'Furniture'
+    tabBarLabel: 'Furniture',
+    tabBarIcon: () => (
+      <MaterialCommunityIcons name='lamp' size={24}/>
+    )
   };
   render(){
     return(
@@ -38,7 +48,10 @@ class FurnitureTab extends React.Component{
 
 class RoommateTab extends React.Component{
   static navigationOptions = {
-    tabBarLabel: 'Roommate'
+    tabBarLabel: 'Roommate',
+    tabBarIcon: () => (
+      <Ionicons name='md-person' size={24}/>
+    )
   };
   render(){
     return(
@@ -49,7 +62,10 @@ class RoommateTab extends React.Component{
 
 class CarpoolTab extends React.Component{
   static navigationOptions = {
-    tabBarLabel: 'Carpool'
+    tabBarLabel: 'Carpool',
+    tabBarIcon: () => (
+      <FontAwesome name='car' size={24}/>
+    )
   };
   render(){
     return(
@@ -79,7 +95,10 @@ const TabNav = TabNavigator({
     swipeEnabled: false,
     animationEnabled: false,
     lazy: true,
-    initialRouteName: 'Books'
+    initialRouteName: 'Books',
+    tabBarOptions: {
+      activeTintColor: '#e91e63',
+    }
 });
 
 export default TabNav;
