@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text } from 'react-native';
-import { TabNavigator, TabBarBottom } from 'react-navigation';
+import { TabNavigator, TabBarBottom, NavigationActions } from 'react-navigation';
 import { Entypo, MaterialCommunityIcons, FontAwesome, Ionicons } from '@expo/vector-icons';
 import TabContents from './customComponents/TabContents';
 

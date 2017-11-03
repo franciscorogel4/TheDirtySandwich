@@ -10,17 +10,21 @@ export default class TabContents extends React.Component{
   constructor(props){
     super(props);
     this.state = {
+      masterCellArray: [],
       filteredCellArray: [],
-      masterCellArray: []
+      viewedCellArray: [],
+      refreshing: false,
+      cellsShown: 0
     };
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <StatusBar hidden={true}/>
+        <StatusBar hidden={false}/>
+        <View style={styles.statusBarPadding}/>
         <View style={styles.topBar}>
-            <SearchBar containerStyle={{flex: 1}}
+            <SearchBar containerStyle={{flex: 1, borderTopWidth: 0, borderBottomWidth: 0}}
               selectTextOnFocus={true} placeholder='Search' placeholderTextColor={'#8086939e'}
               onChangeText={(searchText) => {this.searchTextChanged(searchText);}}
             />
@@ -28,28 +32,43 @@ export default class TabContents extends React.Component{
               <FontAwesome name='user' size={32} color='white'/>
             </View>
         </View>
-          <FlatList style={{flex: 1}} data={this.state.filteredCellArray} extraData={this.state}
+          <FlatList style={{flex: 1}} data={this.state.viewedCellArray} extraData={this.state}
+            refreshing={this.state.refreshing} onRefresh={this.refreshListings.bind(this)}
             renderItem={
-              ({item}) => {
-                return(
-                  <Card image={{uri: item.uri}} title={item.title}/>
-                );
-              }
+            ({item}) => {
+              return(
+                <Card image={{uri: item.uri}} title={item.title}/>
+              );
             }
+          }
           />
       </View>
     );
   }
 
   searchTextChanged(newText){
-    this.setState({filteredCellArray: this.createFilteredArray(newText.toLowerCase(), this.state.masterCellArray)});
+    this.setState({filteredCellArray: this.createFilteredArray(newText.toLowerCase(), this.state.masterCellArray), cellsShown: 0}, () => {
+      this.setState({viewedCellArray: this.createViewedCellArray()});
+    });
   }
 
-  componentDidUpdate(){
-    console.log('component DID update!');
+  createViewedCellArray(){
+    var viewingArray = [];
+    for(var i=this.state.cellsShown; i<this.state.filteredCellArray.length&&i<20; i++){
+      viewingArray.push(this.state.filteredCellArray[i]);
+    }
+    this.setState({cellsShown: this.state.cellsShown+i});
+    return viewingArray;
   }
+
+
 
   componentWillMount(){
+    this.refreshListings();
+  }
+
+  refreshListings(){
+    this.setState({refreshing: true});
     fire.database().ref('listings/' + this.props.item).once('value').then(
       (data) => {
         var dbListings = [];
@@ -63,7 +82,14 @@ export default class TabContents extends React.Component{
           });
           */
         });
-        this.setState({masterCellArray: dbListings, filteredCellArray: dbListings});
+        this.setState({masterCellArray: dbListings, filteredCellArray: dbListings, cellsShown: 0}, () => {
+          this.setState({viewedCellArray: this.createViewedCellArray()}, () => {
+            this.setState({refreshing: false});
+            console.log(this.state.masterCellArray);
+            console.log(this.state.filteredCellArray);
+            console.log(this.state.viewedCellArray);
+          });
+        });
       },
       (error) => {
         console.log('there was an error: ');
@@ -121,6 +147,10 @@ const styles = StyleSheet.create({
     flex: 0.15,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#393E42'
+  },
+  statusBarPadding: {
+    height: 20,
     backgroundColor: '#393E42'
   }
 });
