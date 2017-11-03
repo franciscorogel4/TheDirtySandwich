@@ -98,6 +98,22 @@ export default class TabContents extends React.Component{
     );
   }
 
+  writeUserData(){
+    /* use for posting to database
+    console.log('writing data...');
+    fire.database().ref('listings/test').set({
+      description: 'Hello',
+      key: 'b',
+      source: pic,
+      title: 'Testing'
+    }).then((value) => {
+      console.log('data wrote. push key: ' + value);
+    },(reason) => {
+        console.log('failed. error: ' + reason)
+    });
+    */
+  }
+
   createFilteredArray(filterText, rawArray){
     var filteredArray = [];
     var filterTextRegEx = new RegExp(filterText, 'i');
