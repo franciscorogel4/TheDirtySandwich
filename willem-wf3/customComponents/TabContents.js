@@ -21,7 +21,6 @@ export default class TabContents extends React.Component{
   render() {
     return (
       <View style={styles.container}>
-        <StatusBar hidden={false}/>
         <View style={styles.statusBarPadding}/>
         <View style={styles.topBar}>
             <SearchBar containerStyle={{flex: 1, borderTopWidth: 0, borderBottomWidth: 0}}

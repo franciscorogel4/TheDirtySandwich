@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, Button, FlatList } from 'react-native';
-import { FormInput, FormLabel, CheckBox, FormValidationMessage } from 'react-native-elements';
+import { StyleSheet, Text, View, Button, FlatList } from 'react-native';
+import { FormInput, FormLabel, CheckBox, FormValidationMessage, Card } from 'react-native-elements';
 import fire from '../customComponents/Fire';
 
 
@@ -10,14 +10,17 @@ export default class CreateListing extends React.Component {
   }
   render() {
     return (
-      <FlatList data={[{value: 'b', key: 'a'}]}renderItem={
-        ({item}) => {
-          return(
-            <Form/>
-          );
+      <View>
+        <View style={styles.statusBarPadding}/>
+        <FlatList data={[{value: 'b', key: 'a'}]}renderItem={
+          ({item}) => {
+            return(
+              <Form/>
+            );
+          }
         }
-      }
-      />
+        />
+      </View>
     );
   }
 }
@@ -39,9 +42,10 @@ class Form extends React.Component {
   render(){
     return(
       <View style={styles.container}>
-        <View style={styles.statusBarPadding}/>
-        <FormLabel>{'Type of Listing'}</FormLabel>
-        <View style={styles.listingTypeButtonGroup}>
+        <View style={styles.divider}>
+          <Text>{''}</Text>
+        </View>
+        <Card title='Type of Listing' style={styles.buttonGroup}>
           <CheckBox title='Book' checkedIcon='check-circle-o' uncheckedIcon='circle-o'
             containerStyle={styles.checkBoxContainer}
             checked={this.state.listingTypeArray[0]} onPress={ () => {
@@ -77,11 +81,11 @@ class Form extends React.Component {
                             isSubmitDisabled: this.shouldDisableSubmit()});
             }}
           />
-        </View>
+        </Card>
         <View style={styles.divider}>
-          <FormLabel>Listing Information</FormLabel>
+          <Text>{''}</Text>
         </View>
-        <View style={styles.formInputSection}>
+        <Card title='Listing Information' style={styles.formInputSection}>
             <FormLabel>Listing Title</FormLabel>
             <FormInput placeholder={'Enter title'}/>
             <FormValidationMessage>
@@ -94,13 +98,13 @@ class Form extends React.Component {
             </FormValidationMessage>
             <FormLabel>Description</FormLabel>
             <FormInput placeholder={'Enter description'} multiline={true}/>
-        </View>
+        </Card>
         <View style={styles.divider}>
-          <FormLabel>Contact Information</FormLabel>
+          <Text>{''}</Text>
         </View>
-        <View style={styles.formInputSection}>
-            <FormLabel>Contact info to display</FormLabel>
-            <View style={styles.contactButtonGroup}>
+        <Card title='Contact Information' style={styles.formInputSection}>
+            <FormLabel>Saved contact info to display</FormLabel>
+            <View style={styles.buttonGroup}>
               <CheckBox title='Email' checkedIcon='check-circle-o' uncheckedIcon='circle-o'
                 containerStyle={styles.checkBoxContainer}
                 checked={this.state.contactInfoUsingArray[0]} onPress={ () => {
@@ -120,7 +124,7 @@ class Form extends React.Component {
             <FormInput placeholder={'Enter alternate email address'}/>
             <FormLabel>ALternate Phone #</FormLabel>
             <FormInput placeholder={'Enter alternate phone #'}/>
-        </View>
+        </Card>
         <Button title='Submit' disabled={this.state.isSubmitDisabled}/>
       </View>
     );
@@ -168,22 +172,14 @@ const styles = StyleSheet.create({
     height: 20,
     backgroundColor: 'white'
   },
-  listingTypeButtonGroup: {
-    flex: 0.2,
+  buttonGroup: {
     justifyContent: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    backgroundColor: 'red'
-  },
-  contactButtonGroup: {
-    justifyContent: 'center',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    backgroundColor: 'red'
+    backgroundColor: 'white'
   },
   formInputSection: {
-    flex: 1,
-    backgroundColor: 'orange'
+    backgroundColor: 'white'
   },
   checkBoxContainer: {
     height: 35,
@@ -196,6 +192,6 @@ const styles = StyleSheet.create({
   },
   divider: {
     flex: 0.1,
-    backgroundColor: 'white'
+    backgroundColor: 'orange'
   }
 });
