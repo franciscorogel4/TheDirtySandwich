@@ -10,7 +10,7 @@ export default class CreateListing extends React.Component {
   }
   render() {
     return (
-      <View>
+      <View style={{flex: 1}}>
         <View style={styles.statusBarPadding}/>
         <FlatList data={[{value: 'b', key: 'a'}]}renderItem={
           ({item}) => {
@@ -45,47 +45,50 @@ class Form extends React.Component {
         <View style={styles.divider}>
           <Text>{''}</Text>
         </View>
-        <Card title='Type of Listing' style={styles.buttonGroup}>
-          <CheckBox title='Book' checkedIcon='check-circle-o' uncheckedIcon='circle-o'
-            containerStyle={styles.checkBoxContainer}
-            checked={this.state.listingTypeArray[0]} onPress={ () => {
-              this.setState({listingTypeArray: [!this.state.listingTypeArray[0], false, false, false, false],
-                            isSubmitDisabled: this.shouldDisableSubmit()});
-            }}
-          />
-          <CheckBox title='Tutor' checkedIcon='check-circle-o' uncheckedIcon='circle-o'
-            containerStyle={styles.checkBoxContainer}
-            checked={this.state.listingTypeArray[1]} onPress={ () => {
-              this.setState({listingTypeArray: [false, !this.state.listingTypeArray[1], false, false, false],
-                            isSubmitDisabled: this.shouldDisableSubmit()});
-            }}
-          />
-          <CheckBox title='Furniture' checkedIcon='check-circle-o' uncheckedIcon='circle-o'
-            containerStyle={styles.checkBoxContainer}
-            checked={this.state.listingTypeArray[2]} onPress={ () => {
-              this.setState({listingTypeArray: [false, false, !this.state.listingTypeArray[2], false, false],
-                            isSubmitDisabled: this.shouldDisableSubmit()});
-            }}
-          />
-          <CheckBox title='Roommate' checkedIcon='check-circle-o' uncheckedIcon='circle-o'
-            containerStyle={styles.checkBoxContainer}
-            checked={this.state.listingTypeArray[3]} onPress={ () => {
-              this.setState({listingTypeArray: [false, false, false, !this.state.listingTypeArray[3], false],
-                            isSubmitDisabled: this.shouldDisableSubmit()});
-            }}
-          />
-          <CheckBox title='Carpool' checkedIcon='check-circle-o' uncheckedIcon='circle-o'
-            containerStyle={styles.checkBoxContainer}
-            checked={this.state.listingTypeArray[4]} onPress={ () => {
-              this.setState({listingTypeArray: [false, false, false, false, !this.state.listingTypeArray[4]],
-                            isSubmitDisabled: this.shouldDisableSubmit()});
-            }}
-          />
+        <Card title='Type of Listing'>
+          <View  style={styles.buttonGroup}>
+            <CheckBox title='Book' checkedIcon='check-circle-o' uncheckedIcon='circle-o'
+              containerStyle={styles.checkBoxContainer}
+              checked={this.state.listingTypeArray[0]} onPress={ () => {
+                this.setState({listingTypeArray: [!this.state.listingTypeArray[0], false, false, false, false],
+                               isSubmitDisabled: this.shouldDisableSubmit()});
+                }}
+            />
+            <CheckBox title='Tutor' checkedIcon='check-circle-o' uncheckedIcon='circle-o'
+              containerStyle={styles.checkBoxContainer}
+              checked={this.state.listingTypeArray[1]} onPress={ () => {
+                this.setState({listingTypeArray: [false, !this.state.listingTypeArray[1], false, false, false],
+                               isSubmitDisabled: this.shouldDisableSubmit()});
+              }}
+            />
+            <CheckBox title='Furniture' checkedIcon='check-circle-o' uncheckedIcon='circle-o'
+              containerStyle={styles.checkBoxContainer}
+              checked={this.state.listingTypeArray[2]} onPress={ () => {
+                this.setState({listingTypeArray: [false, false, !this.state.listingTypeArray[2], false, false],
+                               isSubmitDisabled: this.shouldDisableSubmit()});
+              }}
+            />
+            <CheckBox title='Roommate' checkedIcon='check-circle-o' uncheckedIcon='circle-o'
+              containerStyle={styles.checkBoxContainer}
+              checked={this.state.listingTypeArray[3]} onPress={ () => {
+                this.setState({listingTypeArray: [false, false, false, !this.state.listingTypeArray[3], false],
+                               isSubmitDisabled: this.shouldDisableSubmit()});
+              }}
+            />
+            <CheckBox title='Carpool' checkedIcon='check-circle-o' uncheckedIcon='circle-o'
+              containerStyle={styles.checkBoxContainer}
+              checked={this.state.listingTypeArray[4]} onPress={ () => {
+                this.setState({listingTypeArray: [false, false, false, false, !this.state.listingTypeArray[4]],
+                               isSubmitDisabled: this.shouldDisableSubmit()});
+              }}
+            />
+          </View>
         </Card>
         <View style={styles.divider}>
           <Text>{''}</Text>
         </View>
-        <Card title='Listing Information' style={styles.formInputSection}>
+        <Card title='Listing Information'>
+          <View style={styles.formInputSection}>
             <FormLabel>Listing Title</FormLabel>
             <FormInput placeholder={'Enter title'}/>
             <FormValidationMessage>
@@ -98,11 +101,13 @@ class Form extends React.Component {
             </FormValidationMessage>
             <FormLabel>Description</FormLabel>
             <FormInput placeholder={'Enter description'} multiline={true}/>
+          </View>
         </Card>
         <View style={styles.divider}>
           <Text>{''}</Text>
         </View>
-        <Card title='Contact Information' style={styles.formInputSection}>
+        <Card title='Contact Information'>
+          <View style={styles.formInputSection}>
             <FormLabel>Saved contact info to display</FormLabel>
             <View style={styles.buttonGroup}>
               <CheckBox title='Email' checkedIcon='check-circle-o' uncheckedIcon='circle-o'
@@ -124,8 +129,15 @@ class Form extends React.Component {
             <FormInput placeholder={'Enter alternate email address'}/>
             <FormLabel>ALternate Phone #</FormLabel>
             <FormInput placeholder={'Enter alternate phone #'}/>
+          </View>
         </Card>
+        <View style={styles.divider}>
+          <Text>{''}</Text>
+        </View>
         <Button title='Submit' disabled={this.state.isSubmitDisabled}/>
+        <View style={styles.divider}>
+          <Text>{''}</Text>
+        </View>
       </View>
     );
   }
@@ -165,7 +177,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'steelblue',
-    alignItems: 'center',
     justifyContent: 'center',
   },
   statusBarPadding: {
@@ -192,6 +203,6 @@ const styles = StyleSheet.create({
   },
   divider: {
     flex: 0.1,
-    backgroundColor: 'orange'
+    backgroundColor: 'steelblue'
   }
 });
