@@ -106,6 +106,11 @@ class Form extends React.Component {
         <View style={styles.divider}>
           <Text>{''}</Text>
         </View>
+        <Card title='Listing Images'>
+        </Card>
+        <View style={styles.divider}>
+          <Text>{''}</Text>
+        </View>
         <Card title='Contact Information'>
           <View style={styles.formInputSection}>
             <FormLabel>Saved contact info to display</FormLabel>
