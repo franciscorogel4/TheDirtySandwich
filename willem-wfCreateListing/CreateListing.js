@@ -42,7 +42,7 @@ class Form extends React.Component {
         <Card title='Type of Listing'>
           <View style={styles.warningMessageView}>
             <Text style={styles.warningMessage}>
-              {'A listing type is required.'}
+              {(!this.hasListingType()) ? 'A listing type is required.' : ' '}
             </Text>
           </View>
           <View  style={styles.buttonGroup}>
@@ -91,7 +91,7 @@ class Form extends React.Component {
             <FormLabel>Listing Title</FormLabel>
             <View style={styles.warningMessageView}>
               <Text style={styles.warningMessage}>
-                {'This field is required.'}
+                {(this.state.title == '') ? 'This field is required.' : ' '}
               </Text>
             </View>
             <FormInput maxLength={40} inputStyle={{width: 270}} placeholder={'Enter title'}
@@ -102,7 +102,7 @@ class Form extends React.Component {
             <FormLabel>Price</FormLabel>
             <View style={styles.warningMessageView}>
               <Text style={styles.warningMessage}>
-                {'This field is required.'}
+                {(this.state.price == '') ? 'This field is required.' : ' '}
               </Text>
             </View>
             <FormInput maxLength={20} inputStyle={{width: 270}} placeholder={'Enter price'}
@@ -127,7 +127,7 @@ class Form extends React.Component {
         <Card title='Contact Information'>
           <View style={styles.warningMessageView}>
             <Text style={styles.warningMessage}>
-              {'At least one method of contact is required.'}
+              {(!this.hasContactInfo()) ? 'At least one method of contact is required.' : ' '}
             </Text>
           </View>
           <View style={styles.formInputSection}>
@@ -165,7 +165,7 @@ class Form extends React.Component {
         <View style={styles.divider}>
           <Text>{''}</Text>
         </View>
-        <TouchableOpacity activeOpacity={(this.state.canSubmit) ? 0.5 : 1}>
+        <TouchableOpacity activeOpacity={(this.state.canSubmit) ? 0.5 : 1} onPress={() => {this.writeUserData();}}>
           <Card>
             <View style={{justifyContent: 'center', alignItems: 'center'}}>
               <Text style={{color: (this.state.canSubmit) ? 'black' : '#DFDFDF'}}>Submit</Text>
@@ -181,42 +181,37 @@ class Form extends React.Component {
 
   writeUserData(){
     // use for posting to database
-    console.log('writing data...');
-    fire.database().ref('listings/test').set({
-      description: 'Hello',
-      key: 'b',
-      source: pic,
-      title: 'Testing'
-    }).then((value) => {
-      console.log('data wrote. push key: ' + value);
-    },(reason) => {
-      console.log('failed. error: ' + reason)
-    });
+    if(this.state.canSubmit){
+      console.log('writing data...');
+    }
   }
 
   canSubmit(){
 
-    var hasListingType = false;
-    var usingSavedContactInfo = false;
+    if((this.hasListingType() && (this.state.title != '' && this.state.price != '')) &&
+       (this.hasContactInfo())){
+      return true;
+    }
+    return false;
+  }
+
+  hasListingType(){
 
     for(var i of this.state.listingTypeArray){
       if(i){
-        hasListingType = true;
-        break;
+        return true;
       }
     }
+    return false;
+  }
+
+  hasContactInfo(){
 
     for(var i of this.state.contactInfoUsingArray){
-      if(i){
-        usingSavedContactInfo = true;
+      if(i || (this.state.altEmail != '' || this.state.altPhone != '')){
+        return true;
       }
     }
-
-    if((hasListingType && (this.state.title != '' && this.state.price != '')) &&
-       (usingSavedContactInfo || (this.state.altEmail != '' || this.state.altPhone != ''))){
-      return true;
-    }
-
     return false;
   }
 }
