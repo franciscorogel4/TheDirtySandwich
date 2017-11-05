@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, FlatList } from 'react-native';
+import { TouchableOpacity, Platform, StyleSheet, Text, View, Button, FlatList } from 'react-native';
 import { FormInput, FormLabel, CheckBox, FormValidationMessage, Card } from 'react-native-elements';
 import fire from '../customComponents/Fire';
 
@@ -26,13 +26,12 @@ export default class CreateListing extends React.Component {
 }
 
 class Form extends React.Component {
-
   constructor(props){
     super(props);
     this.state = {
       listingTypeArray: [false, false, false, false, false],
       contactInfoUsingArray: [false, false],
-      isSubmitDisabled: true,
+      canSubmit: false,
       hasTitle: false,
       hasPrice: false,
       hasContactInfo: false
@@ -46,40 +45,43 @@ class Form extends React.Component {
           <Text>{''}</Text>
         </View>
         <Card title='Type of Listing'>
+          <FormValidationMessage style={{justifyContent: 'center', alignItems: 'center'}}>
+            {'A listing type is required.'}
+          </FormValidationMessage>
           <View  style={styles.buttonGroup}>
             <CheckBox title='Book' checkedIcon='check-circle-o' uncheckedIcon='circle-o'
               containerStyle={styles.checkBoxContainer}
               checked={this.state.listingTypeArray[0]} onPress={ () => {
                 this.setState({listingTypeArray: [!this.state.listingTypeArray[0], false, false, false, false],
-                               isSubmitDisabled: this.shouldDisableSubmit()});
+                               isSubmitDisabled: this.canSubmit()});
                 }}
             />
             <CheckBox title='Tutor' checkedIcon='check-circle-o' uncheckedIcon='circle-o'
               containerStyle={styles.checkBoxContainer}
               checked={this.state.listingTypeArray[1]} onPress={ () => {
                 this.setState({listingTypeArray: [false, !this.state.listingTypeArray[1], false, false, false],
-                               isSubmitDisabled: this.shouldDisableSubmit()});
+                               isSubmitDisabled: this.canSubmit()});
               }}
             />
             <CheckBox title='Furniture' checkedIcon='check-circle-o' uncheckedIcon='circle-o'
               containerStyle={styles.checkBoxContainer}
               checked={this.state.listingTypeArray[2]} onPress={ () => {
                 this.setState({listingTypeArray: [false, false, !this.state.listingTypeArray[2], false, false],
-                               isSubmitDisabled: this.shouldDisableSubmit()});
+                               isSubmitDisabled: this.canSubmit()});
               }}
             />
             <CheckBox title='Roommate' checkedIcon='check-circle-o' uncheckedIcon='circle-o'
               containerStyle={styles.checkBoxContainer}
               checked={this.state.listingTypeArray[3]} onPress={ () => {
                 this.setState({listingTypeArray: [false, false, false, !this.state.listingTypeArray[3], false],
-                               isSubmitDisabled: this.shouldDisableSubmit()});
+                               isSubmitDisabled: this.canSubmit()});
               }}
             />
             <CheckBox title='Carpool' checkedIcon='check-circle-o' uncheckedIcon='circle-o'
               containerStyle={styles.checkBoxContainer}
               checked={this.state.listingTypeArray[4]} onPress={ () => {
                 this.setState({listingTypeArray: [false, false, false, false, !this.state.listingTypeArray[4]],
-                               isSubmitDisabled: this.shouldDisableSubmit()});
+                               isSubmitDisabled: this.canSubmit()});
               }}
             />
           </View>
@@ -90,17 +92,17 @@ class Form extends React.Component {
         <Card title='Listing Information'>
           <View style={styles.formInputSection}>
             <FormLabel>Listing Title</FormLabel>
-            <FormInput placeholder={'Enter title'}/>
+            <FormInput maxLength={40} placeholder={'Enter title'}/>
             <FormValidationMessage>
               {'This field is required.'}
             </FormValidationMessage>
             <FormLabel>Price</FormLabel>
-            <FormInput placeholder={'Enter price'}/>
+            <FormInput maxLength={20} placeholder={'Enter price'}/>
             <FormValidationMessage>
               {'This field is required.'}
             </FormValidationMessage>
             <FormLabel>Description</FormLabel>
-            <FormInput placeholder={'Enter description'} multiline={true}/>
+            <FormInput placeholder={'Enter description'} inputStyle={{height: 150}} multiline={true}/>
           </View>
         </Card>
         <View style={styles.divider}>
@@ -112,6 +114,9 @@ class Form extends React.Component {
           <Text>{''}</Text>
         </View>
         <Card title='Contact Information'>
+          <FormValidationMessage style={{justifyContent: 'center', alignItems: 'center'}}>
+            {'At least one method of contact is required.'}
+          </FormValidationMessage>
           <View style={styles.formInputSection}>
             <FormLabel>Saved contact info to display</FormLabel>
             <View style={styles.buttonGroup}>
@@ -119,27 +124,33 @@ class Form extends React.Component {
                 containerStyle={styles.checkBoxContainer}
                 checked={this.state.contactInfoUsingArray[0]} onPress={ () => {
                   this.setState({contactInfoUsingArray: [!this.state.contactInfoUsingArray[0], this.state.contactInfoUsingArray[1]],
-                                isSubmitDisabled: this.shouldDisableSubmit()});
+                                isSubmitDisabled: this.canSubmit()});
                 }}
               />
               <CheckBox title='Phone' checkedIcon='check-circle-o' uncheckedIcon='circle-o'
                 containerStyle={styles.checkBoxContainer}
                 checked={this.state.contactInfoUsingArray[1]} onPress={ () => {
                   this.setState({contactInfoUsingArray: [this.state.contactInfoUsingArray[0], !this.state.contactInfoUsingArray[1]],
-                                isSubmitDisabled: this.shouldDisableSubmit()});
+                                isSubmitDisabled: this.canSubmit()});
                 }}
               />
             </View>
             <FormLabel>Alternate Email</FormLabel>
-            <FormInput placeholder={'Enter alternate email address'}/>
-            <FormLabel>ALternate Phone #</FormLabel>
-            <FormInput placeholder={'Enter alternate phone #'}/>
+            <FormInput keyboardType={'email-address'} maxLength={50} placeholder={'Enter alternate email address'}/>
+            <FormLabel>Alternate Phone #</FormLabel>
+            <FormInput keyboardType={'numeric'} placeholder={'Enter alternate phone #'}/>
           </View>
         </Card>
         <View style={styles.divider}>
           <Text>{''}</Text>
         </View>
-        <Button title='Submit' disabled={this.state.isSubmitDisabled}/>
+        <TouchableOpacity activeOpacity={(this.state.canSubmit) ? 0.5 : 1}>
+          <Card>
+            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+              <Text style={{color: (this.state.canSubmit) ? 'black' : '#DFDFDF'}}>Submit</Text>
+            </View>
+          </Card>
+        </TouchableOpacity>
         <View style={styles.divider}>
           <Text>{''}</Text>
         </View>
@@ -162,7 +173,7 @@ class Form extends React.Component {
     });
   }
 
-  shouldDisableSubmit(){
+  canSubmit(){
     var hasListingType = false;
 
     for(var i of this.state.listingTypeArray){
@@ -172,9 +183,9 @@ class Form extends React.Component {
       }
     }
     if(this.state.hasPrice && this.state.hasTitle && this.state.hasContactInfo && hasListingType){
-      return false;
+      return true;
     }
-    return true;
+    return false;
   }
 }
 
@@ -185,7 +196,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   statusBarPadding: {
-    height: 20,
+    height: (Platform.OS === 'ios') ? 20: 24,
     backgroundColor: 'white'
   },
   buttonGroup: {
@@ -203,11 +214,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row'
   },
-  formInput: {
-    width: 100
-  },
   divider: {
     flex: 0.1,
     backgroundColor: 'steelblue'
+  },
+  submitButton: {
+    backgroundColor: 'orange',
+    color: 'black'
   }
 });
