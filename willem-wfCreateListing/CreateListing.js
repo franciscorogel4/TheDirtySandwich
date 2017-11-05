@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Platform, StyleSheet, Text, View, Button, FlatList } from 'react-native';
+import { Alert, TouchableOpacity, Platform, StyleSheet, Text, View, Button, FlatList } from 'react-native';
 import { FormInput, FormLabel, CheckBox, Card } from 'react-native-elements';
 import fire from '../customComponents/Fire';
 
@@ -127,7 +127,7 @@ class Form extends React.Component {
         <Card title='Contact Information'>
           <View style={styles.warningMessageView}>
             <Text style={styles.warningMessage}>
-              {(!this.hasContactInfo()) ? 'At least one method of contact is required.' : ' '}
+              {(!(this.hasSavedContactInfo() || this.hasAltContactInfo())) ? 'At least one method of contact is required.' : ' '}
             </Text>
           </View>
           <View style={styles.formInputSection}>
@@ -165,7 +165,11 @@ class Form extends React.Component {
         <View style={styles.divider}>
           <Text>{''}</Text>
         </View>
-        <TouchableOpacity activeOpacity={(this.state.canSubmit) ? 0.5 : 1} onPress={() => {this.writeUserData();}}>
+        <TouchableOpacity activeOpacity={(this.state.canSubmit) ? 0.5 : 1}
+          onPress={() => {
+            this.writeUserData();
+            this.setState({canSubmit: false});
+          }}>
           <Card>
             <View style={{justifyContent: 'center', alignItems: 'center'}}>
               <Text style={{color: (this.state.canSubmit) ? 'black' : '#DFDFDF'}}>Submit</Text>
@@ -180,24 +184,63 @@ class Form extends React.Component {
   }
 
   writeUserData(){
-    // use for posting to database
     if(this.state.canSubmit){
-      console.log('writing data...');
+      var updateData = {};
+      var listingKey = fire.database().ref('listings/' + this.hasListingType()).push().key;
+      var listingData = {
+        description: this.state.description,
+        email: (this.hasSavedContactInfo()) ? '' : this.state.altEmail,
+        key: listingKey,
+        location: '',
+        phone: (this.hasSavedContactInfo()) ? '' : this.state.altPhone,
+        price: this.state.price,
+        title: this.state.title,
+        uri: ''
+      };
+
+      updateData['listings/' + this.hasListingType() + '/' + listingKey] = listingData;
+      fire.database().ref().update(updateData).then((acceptValue) => {
+        Alert.alert('Listing created successfully', ''
+          [{text: 'OK', onPress: () => console.log('OK Pressed')}],
+          { cancelable: false });
+      }, (rejectReason) => {
+        Alert.alert('Listing creation failed', 'Please try again',
+          [{text: 'OK', onPress: () => console.log('OK Pressed')}],
+          { cancelable: false });
+          this.setState({canSubmit: true});
+      }).catch((error) => {
+        conosle.log(error.code);
+      });
     }
   }
 
   canSubmit(){
-
     if((this.hasListingType() && (this.state.title != '' && this.state.price != '')) &&
-       (this.hasContactInfo())){
+       (this.hasSavedContactInfo() || this.hasAltContactInfo())){
       return true;
     }
     return false;
   }
 
   hasListingType(){
+    var i = 0;
+    for(var i2 of this.state.listingTypeArray){
+      if(i2){
+        switch(i){
+          case 0: return 'book';
+          case 1: return 'tutor';
+          case 2: return 'furniture';
+          case 3: return 'roommate';
+          case 4: return 'carpool';
+        }
+      }
+      i++;
+    }
+    return undefined;
+  }
 
-    for(var i of this.state.listingTypeArray){
+  hasSavedContactInfo(){
+    for(var i of this.state.contactInfoUsingArray){
       if(i){
         return true;
       }
@@ -205,12 +248,9 @@ class Form extends React.Component {
     return false;
   }
 
-  hasContactInfo(){
-
-    for(var i of this.state.contactInfoUsingArray){
-      if(i || (this.state.altEmail != '' || this.state.altPhone != '')){
-        return true;
-      }
+  hasAltContactInfo(){
+    if(this.state.altEmail != '' || this.state.altPhone != ''){
+      return true;
     }
     return false;
   }
