@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, Platform, StyleSheet, Text, View, Button, FlatList } from 'react-native';
-import { FormInput, FormLabel, CheckBox, FormValidationMessage, Card } from 'react-native-elements';
+import { FormInput, FormLabel, CheckBox, Card } from 'react-native-elements';
 import fire from '../customComponents/Fire';
 
 
@@ -12,14 +12,7 @@ export default class CreateListing extends React.Component {
     return (
       <View style={{flex: 1}}>
         <View style={styles.statusBarPadding}/>
-        <FlatList data={[{value: 'b', key: 'a'}]}renderItem={
-          ({item}) => {
-            return(
-              <Form/>
-            );
-          }
-        }
-        />
+        <FlatList data={[{key: 'a'}]}renderItem={({item}) => {return(<Form/>);}}/>
       </View>
     );
   }
@@ -32,9 +25,11 @@ class Form extends React.Component {
       listingTypeArray: [false, false, false, false, false],
       contactInfoUsingArray: [false, false],
       canSubmit: false,
-      hasTitle: false,
-      hasPrice: false,
-      hasContactInfo: false
+      title: '',
+      price: '',
+      description: '',
+      altEmail: '',
+      altPhone: ''
     };
   }
 
@@ -45,43 +40,45 @@ class Form extends React.Component {
           <Text>{''}</Text>
         </View>
         <Card title='Type of Listing'>
-          <FormValidationMessage style={{justifyContent: 'center', alignItems: 'center'}}>
-            {'A listing type is required.'}
-          </FormValidationMessage>
+          <View style={styles.warningMessageView}>
+            <Text style={styles.warningMessage}>
+              {'A listing type is required.'}
+            </Text>
+          </View>
           <View  style={styles.buttonGroup}>
             <CheckBox title='Book' checkedIcon='check-circle-o' uncheckedIcon='circle-o'
               containerStyle={styles.checkBoxContainer}
               checked={this.state.listingTypeArray[0]} onPress={ () => {
-                this.setState({listingTypeArray: [!this.state.listingTypeArray[0], false, false, false, false],
-                               isSubmitDisabled: this.canSubmit()});
-                }}
+                this.setState({listingTypeArray: [!this.state.listingTypeArray[0], false, false, false, false]},
+                () => {this.setState({canSubmit: this.canSubmit()});});
+              }}
             />
             <CheckBox title='Tutor' checkedIcon='check-circle-o' uncheckedIcon='circle-o'
               containerStyle={styles.checkBoxContainer}
               checked={this.state.listingTypeArray[1]} onPress={ () => {
-                this.setState({listingTypeArray: [false, !this.state.listingTypeArray[1], false, false, false],
-                               isSubmitDisabled: this.canSubmit()});
+                this.setState({listingTypeArray: [false, !this.state.listingTypeArray[1], false, false, false]},
+                () => {this.setState({canSubmit: this.canSubmit()});});
               }}
             />
             <CheckBox title='Furniture' checkedIcon='check-circle-o' uncheckedIcon='circle-o'
               containerStyle={styles.checkBoxContainer}
               checked={this.state.listingTypeArray[2]} onPress={ () => {
-                this.setState({listingTypeArray: [false, false, !this.state.listingTypeArray[2], false, false],
-                               isSubmitDisabled: this.canSubmit()});
+                this.setState({listingTypeArray: [false, false, !this.state.listingTypeArray[2], false, false]},
+                () => {this.setState({canSubmit: this.canSubmit()});});
               }}
             />
             <CheckBox title='Roommate' checkedIcon='check-circle-o' uncheckedIcon='circle-o'
               containerStyle={styles.checkBoxContainer}
               checked={this.state.listingTypeArray[3]} onPress={ () => {
-                this.setState({listingTypeArray: [false, false, false, !this.state.listingTypeArray[3], false],
-                               isSubmitDisabled: this.canSubmit()});
+                this.setState({listingTypeArray: [false, false, false, !this.state.listingTypeArray[3], false]},
+                () => {this.setState({canSubmit: this.canSubmit()});});
               }}
             />
             <CheckBox title='Carpool' checkedIcon='check-circle-o' uncheckedIcon='circle-o'
               containerStyle={styles.checkBoxContainer}
               checked={this.state.listingTypeArray[4]} onPress={ () => {
-                this.setState({listingTypeArray: [false, false, false, false, !this.state.listingTypeArray[4]],
-                               isSubmitDisabled: this.canSubmit()});
+                this.setState({listingTypeArray: [false, false, false, false, !this.state.listingTypeArray[4]]},
+                () => {this.setState({canSubmit: this.canSubmit()});});
               }}
             />
           </View>
@@ -92,17 +89,31 @@ class Form extends React.Component {
         <Card title='Listing Information'>
           <View style={styles.formInputSection}>
             <FormLabel>Listing Title</FormLabel>
-            <FormInput maxLength={40} placeholder={'Enter title'}/>
-            <FormValidationMessage>
-              {'This field is required.'}
-            </FormValidationMessage>
+            <View style={styles.warningMessageView}>
+              <Text style={styles.warningMessage}>
+                {'This field is required.'}
+              </Text>
+            </View>
+            <FormInput maxLength={40} inputStyle={{width: 270}} placeholder={'Enter title'}
+              onChangeText={(text) => {this.setState({title: text},
+                () => {this.setState({canSubmit: this.canSubmit()});});
+              }}
+            />
             <FormLabel>Price</FormLabel>
-            <FormInput maxLength={20} placeholder={'Enter price'}/>
-            <FormValidationMessage>
-              {'This field is required.'}
-            </FormValidationMessage>
+            <View style={styles.warningMessageView}>
+              <Text style={styles.warningMessage}>
+                {'This field is required.'}
+              </Text>
+            </View>
+            <FormInput maxLength={20} inputStyle={{width: 270}} placeholder={'Enter price'}
+              onChangeText={(text) => {this.setState({price: text},
+                () => {this.setState({canSubmit: this.canSubmit()});});
+              }}
+            />
             <FormLabel>Description</FormLabel>
-            <FormInput placeholder={'Enter description'} inputStyle={{height: 150}} multiline={true}/>
+            <FormInput placeholder={'Enter description'} inputStyle={{width: 270, height: 150}} maxLength={750} multiline={true}
+              onChangeText={(text) => {this.setState({description: text});}}
+            />
           </View>
         </Card>
         <View style={styles.divider}>
@@ -114,31 +125,41 @@ class Form extends React.Component {
           <Text>{''}</Text>
         </View>
         <Card title='Contact Information'>
-          <FormValidationMessage style={{justifyContent: 'center', alignItems: 'center'}}>
-            {'At least one method of contact is required.'}
-          </FormValidationMessage>
+          <View style={styles.warningMessageView}>
+            <Text style={styles.warningMessage}>
+              {'At least one method of contact is required.'}
+            </Text>
+          </View>
           <View style={styles.formInputSection}>
             <FormLabel>Saved contact info to display</FormLabel>
             <View style={styles.buttonGroup}>
               <CheckBox title='Email' checkedIcon='check-circle-o' uncheckedIcon='circle-o'
                 containerStyle={styles.checkBoxContainer}
                 checked={this.state.contactInfoUsingArray[0]} onPress={ () => {
-                  this.setState({contactInfoUsingArray: [!this.state.contactInfoUsingArray[0], this.state.contactInfoUsingArray[1]],
-                                isSubmitDisabled: this.canSubmit()});
+                  this.setState({contactInfoUsingArray: [!this.state.contactInfoUsingArray[0], this.state.contactInfoUsingArray[1]]},
+                    () => {this.setState({canSubmit: this.canSubmit()});});
                 }}
               />
               <CheckBox title='Phone' checkedIcon='check-circle-o' uncheckedIcon='circle-o'
                 containerStyle={styles.checkBoxContainer}
                 checked={this.state.contactInfoUsingArray[1]} onPress={ () => {
-                  this.setState({contactInfoUsingArray: [this.state.contactInfoUsingArray[0], !this.state.contactInfoUsingArray[1]],
-                                isSubmitDisabled: this.canSubmit()});
+                  this.setState({contactInfoUsingArray: [this.state.contactInfoUsingArray[0], !this.state.contactInfoUsingArray[1]]},
+                    () => {this.setState({canSubmit: this.canSubmit()});});
                 }}
               />
             </View>
             <FormLabel>Alternate Email</FormLabel>
-            <FormInput keyboardType={'email-address'} maxLength={50} placeholder={'Enter alternate email address'}/>
+            <FormInput keyboardType={'email-address'} maxLength={50} placeholder={'Enter alternate email address'}
+              onChangeText={(text) => {this.setState({altEmail: text},
+                () => {this.setState({canSubmit: this.canSubmit()});});
+              }}
+            />
             <FormLabel>Alternate Phone #</FormLabel>
-            <FormInput keyboardType={'numeric'} placeholder={'Enter alternate phone #'}/>
+            <FormInput keyboardType={'numeric'} placeholder={'Enter alternate phone #'}
+              onChangeText={(text) => {this.setState({altPhone: text},
+                () => {this.setState({canSubmit: this.canSubmit()});});
+              }}
+            />
           </View>
         </Card>
         <View style={styles.divider}>
@@ -174,7 +195,9 @@ class Form extends React.Component {
   }
 
   canSubmit(){
+
     var hasListingType = false;
+    var usingSavedContactInfo = false;
 
     for(var i of this.state.listingTypeArray){
       if(i){
@@ -182,9 +205,18 @@ class Form extends React.Component {
         break;
       }
     }
-    if(this.state.hasPrice && this.state.hasTitle && this.state.hasContactInfo && hasListingType){
+
+    for(var i of this.state.contactInfoUsingArray){
+      if(i){
+        usingSavedContactInfo = true;
+      }
+    }
+
+    if((hasListingType && (this.state.title != '' && this.state.price != '')) &&
+       (usingSavedContactInfo || (this.state.altEmail != '' || this.state.altPhone != ''))){
       return true;
     }
+
     return false;
   }
 }
@@ -197,7 +229,7 @@ const styles = StyleSheet.create({
   },
   statusBarPadding: {
     height: (Platform.OS === 'ios') ? 20: 24,
-    backgroundColor: 'white'
+    backgroundColor: 'steelblue'
   },
   buttonGroup: {
     justifyContent: 'center',
@@ -221,5 +253,12 @@ const styles = StyleSheet.create({
   submitButton: {
     backgroundColor: 'orange',
     color: 'black'
+  },
+  warningMessageView: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  warningMessage: {
+    color: 'red'
   }
 });
