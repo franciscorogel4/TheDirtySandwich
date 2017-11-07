@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, TouchableOpacity, Platform, StyleSheet, Text, View, Button, FlatList } from 'react-native';
+import { Alert, TouchableOpacity, Platform, StyleSheet, Text, View, FlatList } from 'react-native';
 import { FormInput, FormLabel, CheckBox, Card } from 'react-native-elements';
 import fire from '../customComponents/Fire';
 
@@ -8,6 +8,7 @@ export default class CreateListing extends React.Component {
   constructor(props){
     super(props);
   }
+
   render() {
     return (
       <View style={{flex: 1}}>

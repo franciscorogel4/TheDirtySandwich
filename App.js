@@ -1,14 +1,12 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import TabNav from './willem-wf3/Main';
-import CreateListing from './willem-wfCreateListing/CreateListing';
-import InitialScreen from './scacela-wf5/InitialScreen';
+import { TabNav, InitialStackNavigator } from './customComponents/router';
 
 
 export default class App extends React.Component {
   render() {
     return (
-      <CreateListing/>
+      <TabNav/>
     );
   }
 }

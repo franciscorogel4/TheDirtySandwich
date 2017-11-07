@@ -7,6 +7,8 @@ import SignIn from "./screens/SignIn";
 import Home from "./screens/Home";
 import Profile from "./screens/Profile";
 
+import TabNav from '../../willem-wf3/Main';
+
 const headerStyle = {
   marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
 };
@@ -23,6 +25,13 @@ export const SignedOut = StackNavigator({
     screen: SignIn,
     navigationOptions: {
       title: "Sign In",
+      headerStyle
+    }
+  },
+  TabNav: {
+    screen: TabNav,
+    navigationOptions: {
+      title: "TabNav",
       headerStyle
     }
   }

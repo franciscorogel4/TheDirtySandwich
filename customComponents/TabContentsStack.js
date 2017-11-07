@@ -4,7 +4,7 @@ import { SearchBar, Card } from 'react-native-elements';
 import { FontAwesome } from '@expo/vector-icons';
 import fire from './Fire';
 
-export default class TabContents extends React.Component{
+export default class TabContentsStack extends React.Component{
 
 
   constructor(props){
@@ -29,7 +29,11 @@ export default class TabContents extends React.Component{
               onChangeText={(searchText) => {this.searchTextChanged(searchText);}}
             />
             <View style={styles.profileButton}>
-              <FontAwesome name='user' size={32} color='white' onPress={()=>{console.log('hello');}}/>
+              <FontAwesome name='user' size={32} color='white'
+                onPress={() => {
+                  console.log('hello');
+                }}
+              />
             </View>
         </View>
           <FlatList style={{flex: 1}} data={this.state.viewedCellArray} extraData={this.state}
@@ -85,9 +89,6 @@ export default class TabContents extends React.Component{
         this.setState({masterCellArray: dbListings, filteredCellArray: dbListings, cellsShown: 0}, () => {
           this.setState({viewedCellArray: this.createViewedCellArray()}, () => {
             this.setState({refreshing: false});
-            console.log(this.state.masterCellArray);
-            console.log(this.state.filteredCellArray);
-            console.log(this.state.viewedCellArray);
           });
         });
       },
