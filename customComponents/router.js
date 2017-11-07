@@ -55,16 +55,29 @@ class Screen2 extends React.Component{
 
 export const InitialStackNavigator = StackNavigator({
   SignIn: {
-    screen: SignIn
+    screen: SignIn,
+    navigationOptions: {
+      tabBarVisible: false,
+      header: null
+    }
   },
   SignUp: {
-    screen: SignUp
+    screen: SignUp,
+    navigationOptions: {
+      tabBarVisible: false
+    }
   },
   ForgotPassword: {
-    screen: ForgotPassword
+    screen: ForgotPassword,
+    navigationOptions: {
+      tabBarVisible: false
+    }
   },
   BookTab: {
     screen: BookTab,
+    navigationOptions: {
+      header: null
+    }
   },
   CreateListing: {
     screen: CreateListing
@@ -78,7 +91,10 @@ export const InitialStackNavigator = StackNavigator({
 
 export const TutorStackNav = StackNavigator({
   TutorTab: {
-    screen: TutorTab
+    screen: TutorTab,
+    navigationOptions: {
+      header: null
+    }
   },
   CreateListing: {
     screen: CreateListing
@@ -87,7 +103,10 @@ export const TutorStackNav = StackNavigator({
 
 export const FurnitureStackNav = StackNavigator({
   FurnitureTab: {
-    screen: FurnitureTab
+    screen: FurnitureTab,
+    navigationOptions: {
+      header: null
+    }
   },
   CreateListing: {
     screen: CreateListing
@@ -96,7 +115,10 @@ export const FurnitureStackNav = StackNavigator({
 
 export const RoommateStackNav = StackNavigator({
   RoommateTab: {
-    screen: RoommateTab
+    screen: RoommateTab,
+    navigationOptions: {
+      header: null
+    }
   },
   CreateListing: {
     screen: CreateListing
@@ -105,27 +127,19 @@ export const RoommateStackNav = StackNavigator({
 
 export const CarpoolStackNav = StackNavigator({
   CarpoolTab: {
-    screen: CarpoolTab
+    screen: CarpoolTab,
+    navigationOptions: {
+      header: null
+    }
   },
   CreateListing: {
     screen: CreateListing
   }
 });
 
-class InitialStackNavView extends React.Component {
-  static navigationOptions = ({ navigation, screenProps }) => ({
-
-  });
-  render(){
-    return(
-      <InitialStackNavigator/>
-    );
-  }
-}
-
 export const TabNav = TabNavigator({
   Initial: {
-    screen: InitialStackNavView
+    screen: InitialStackNavigator
   },
   TutorStackNav: {
     screen: TutorStackNav

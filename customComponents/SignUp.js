@@ -26,7 +26,7 @@ export default class SignUp extends Component{
       }).catch(function(e){
         alert(e);
       })
-      this.props.navigation.navigate('TabNav');
+      this.props.navigation.navigate('BookTab');
 
     } else {
       console.log("pass and confirm pass are NOT the same ");
