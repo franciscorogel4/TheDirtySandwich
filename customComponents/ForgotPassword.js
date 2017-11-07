@@ -1,9 +1,8 @@
 import React, {Component} from "react";
-import { Alert, Image, StyleSheet, View } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 import { Card, Button, FormLabel, FormInput } from "react-native-elements";
 import { onSignIn } from "./auth";
-
-import firebase from 'firebase';
+import fire from './Fire';
 
 export default class ForgotPassword extends Component {
 
@@ -48,7 +47,6 @@ export default class ForgotPassword extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#4783B0',
-    paddingVertical: 50
+    backgroundColor: '#4783B0'
   }
 });

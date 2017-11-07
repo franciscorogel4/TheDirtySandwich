@@ -1,7 +1,7 @@
 import React from 'react';
 import { Alert, TouchableOpacity, Platform, StyleSheet, Text, View, FlatList } from 'react-native';
 import { FormInput, FormLabel, CheckBox, Card } from 'react-native-elements';
-import fire from '../customComponents/Fire';
+import fire from './Fire';
 
 
 export default class CreateListing extends React.Component {
@@ -12,8 +12,7 @@ export default class CreateListing extends React.Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <View style={styles.statusBarPadding}/>
-        <FlatList data={[{key: 'a'}]}renderItem={({item}) => {return(<Form/>);}}/>
+        <FlatList data={[{key: 'a'}]}renderItem={({item}) => {return(<Form navigation={this.props.navigation}/>);}}/>
       </View>
     );
   }
@@ -170,6 +169,9 @@ class Form extends React.Component {
           onPress={() => {
             this.writeUserData();
             this.setState({canSubmit: false});
+            if(this.state.canSubmit){
+              this.props.navigation.goBack();
+            }
           }}>
           <Card>
             <View style={{justifyContent: 'center', alignItems: 'center'}}>
@@ -262,10 +264,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'steelblue',
     justifyContent: 'center',
-  },
-  statusBarPadding: {
-    height: (Platform.OS === 'ios') ? 20: 24,
-    backgroundColor: 'steelblue'
   },
   buttonGroup: {
     justifyContent: 'center',

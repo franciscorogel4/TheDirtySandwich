@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { Platform, View, StyleSheet } from 'react-native';
 import { StackNavigator, TabNavigator, TabBarBottom } from "react-navigation";
 import { BookTab, FurnitureTab, TutorTab, CarpoolTab, RoommateTab } from './ListingTabs';
 import CreateListing from './CreateListing';
@@ -7,51 +7,6 @@ import SignIn from './SignIn';
 import SignUp from './SignUp';
 import Profile from './Profile';
 import ForgotPassword from './ForgotPassword';
-
-class Screen1 extends React.Component{
-  render(){
-    return(
-      <View>
-        <Text>Screen 1</Text>
-        <TouchableOpacity onPress={() => {
-          console.log('to screen 2');
-          this.props.navigation.navigate('Screen2');
-        }}>
-          <View style={{backgroundColor: 'red'}}>
-            <Text>{'Go to screen 2'}</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() =>{
-          console.log('to book tab');
-          this.props.navigation.navigate('BookTab');
-        }}>
-          <View style={{backgroundColor: 'blue'}}>
-            <Text>Go to listings</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-    );
-  }
-}
-
-class Screen2 extends React.Component{
-  render(){
-    return(
-      <View>
-        <Text>Screen 2</Text>
-        <TouchableOpacity onPress={() => {
-          console.log('go back');
-          console.log(this.props.navigation.navigate());
-          this.props.navigation.goBack();
-        }}>
-          <View style={{backgroundColor: 'red'}}>
-            <Text>{'Go back to screen 1'}</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-    );
-  }
-}
 
 export const InitialStackNavigator = StackNavigator({
   SignIn: {
@@ -163,3 +118,18 @@ export const TabNav = TabNavigator({
       activeTintColor: '#e91e63',
     }
   });
+
+export default class MasterTabNav extends React.Component{
+  render(){
+    return(      
+        <TabNav/>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  statusBarPadding: {
+    height: (Platform.OS === 'ios') ? 20: 24,
+    backgroundColor: 'steelblue'
+  }
+});

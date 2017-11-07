@@ -1,21 +1,8 @@
 import React, {Component} from "react";
-import { Alert, StyleSheet, View, Image } from "react-native";
-import { Card, Button, FormLabel, FormInput, Text } from "react-native-elements";
-import { StackNavigator, TabNavigator } from "react-navigation";
+import { StatusBar, Platform, Alert, StyleSheet, View, Image } from "react-native";
+import { Card, Button, FormLabel, FormInput } from "react-native-elements";
 import { onSignIn } from "./auth";
-//import ForgotPassword from "./ForgotPassword";
-
-//import TabNav from "../Main";
-
-import firebase from 'firebase';
-
-/*firebase.initializeApp({
-  apiKey: "AIzaSyDBXjNByBcC2K5fBgK-hTrqNhhjOR3fKgw",        // Auth / General Use
-  authDomain: "novaemporium-5b87b.firebaseapp.com",         // Auth with popup/redirect
-  databaseURL: "https://novaemporium-5b87b.firebaseio.com", // Realtime Database
-  storageBucket: "novaemporium-5b87b.appspot.com",          // Storage
-  });*/
-
+import fire from './Fire';
 
 export default class SignIn extends Component{
 
@@ -27,14 +14,10 @@ export default class SignIn extends Component{
       forgotPasswordEmail: '',
       promptVisible: false
     }
-    this.onForgetPassword = this.onForgetPassword.bind(this);
-    this.onSignUpButtonPressed = this.onSignUpButtonPressed.bind(this);
-    this.onSignInPressed = this.onSignInPressed.bind(this);
-
   }
 
   onSignInPressed = () => {
-    firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then(function(){
+    fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then(function(){
       Alert.alert("you have been signed in");
     }).catch(function(e){
         alert(e);
@@ -43,18 +26,20 @@ export default class SignIn extends Component{
   };
 
   onForgetPassword = () => {
-    this.props.navigation.navigate('ForgotPassword', this);
+    this.props.navigation.navigate('ForgotPassword');
     console.log("ForgotPassword Pressed");
   };
 
   onSignUpButtonPressed = () => {
-    this.props.navigation.navigate('SignUp', this);
+    this.props.navigation.navigate('SignUp');
     console.log("SignUp Pressed");
   };
-  
+
   render(){
     return(
       <View style={styles.container}>
+        <StatusBar hidden={false}/>
+        <View style={styles.statusBarPadding}/>
         <View style={{paddingTop: 10}}>
           <Image
             style={{
@@ -107,7 +92,10 @@ export default class SignIn extends Component{
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#4783B0',
-    paddingVertical: 5
+    backgroundColor: '#4783B0'
+  },
+  statusBarPadding: {
+    height: (Platform.OS === 'ios') ? 20: 24,
+    backgroundColor: '#EFEDF1'
   }
 });

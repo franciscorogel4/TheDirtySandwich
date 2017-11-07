@@ -2,10 +2,9 @@ import React from 'react';
 import { StyleSheet, Text, View, FlatList, StatusBar } from 'react-native';
 import { SearchBar, Card } from 'react-native-elements';
 import { FontAwesome } from '@expo/vector-icons';
-import fire from './Fire';
+import fire from './customComponents/Fire';
 
-export default class TabContentsStack extends React.Component{
-
+export default class TabContents extends React.Component{
 
   constructor(props){
     super(props);
@@ -64,8 +63,6 @@ export default class TabContentsStack extends React.Component{
     this.setState({cellsShown: this.state.cellsShown+i});
     return viewingArray;
   }
-
-
 
   componentWillMount(){
     this.refreshListings();

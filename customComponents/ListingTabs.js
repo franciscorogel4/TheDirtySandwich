@@ -1,6 +1,6 @@
 import React from 'react';
 import { Entypo, MaterialCommunityIcons, FontAwesome, Ionicons } from '@expo/vector-icons';
-import TabContentsStack from '../customComponents/TabContentsStack';
+import TabContents from './TabContents';
 
 export class BookTab extends React.Component{
   static navigationOptions = {
@@ -11,7 +11,7 @@ export class BookTab extends React.Component{
   };
   render(){
     return(
-      <TabContentsStack item='book'/>
+      <TabContents navigation={this.props.navigation} item='book'/>
     );
   }
 }
@@ -25,7 +25,7 @@ export class TutorTab extends React.Component{
   };
   render(){
     return(
-      <TabContentsStack item='tutor'/>
+      <TabContents navigation={this.props.navigation} item='tutor'/>
     );
   }
 }
@@ -39,7 +39,7 @@ export class FurnitureTab extends React.Component{
   };
   render(){
     return(
-      <TabContentsStack item='furniture'/>
+      <TabContents navigation={this.props.navigation} item='furniture'/>
     );
   }
 }
@@ -53,7 +53,7 @@ export class RoommateTab extends React.Component{
   };
   render(){
     return(
-      <TabContentsStack item='roommate'/>
+      <TabContents navigation={this.props.navigation} item='roommate'/>
     );
   }
 }
@@ -67,7 +67,7 @@ export class CarpoolTab extends React.Component{
   };
   render(){
     return(
-      <TabContentsStack item='carpool'/>
+      <TabContents navigation={this.props.navigation} item='carpool'/>
     );
   }
 }

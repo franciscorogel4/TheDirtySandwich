@@ -16,8 +16,6 @@ export default class SignUp extends Component{
       password: "",
       confirmPassword: ""
     }
-    this.onSignUpPressed = this.onSignUpPressed.bind(this);
-
   }
 
   onSignUpPressed = () => {
@@ -37,7 +35,7 @@ export default class SignUp extends Component{
   render(){
     return(
       <View style={styles.container}>
-        <View style={{paddingTop: 0}}>
+        <View>
           <Image
             style={{
               alignSelf: 'center',
@@ -82,7 +80,8 @@ export default class SignUp extends Component{
           <FormLabel>Cell Phone Number</FormLabel>
           <FormInput
             secureTextEntry placeholder="Cell Phone Number..."
-            onChangeText={(confirmPassword) => this.setState({confirmPassword})}              />
+            onChangeText={(confirmPassword) => this.setState({confirmPassword})}
+          />
 
           <Button
             buttonStyle={{ marginTop: 20 }}
@@ -100,7 +99,6 @@ export default class SignUp extends Component{
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#4783B0',
-    paddingVertical: 5
+    backgroundColor: '#4783B0'
   }
 });
