@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, FlatList, StatusBar } from 'react-native';
+import { Platform, TouchableOpacity, StyleSheet, Text, View, FlatList, Button } from 'react-native';
 import { SearchBar, Card } from 'react-native-elements';
 import { FontAwesome } from '@expo/vector-icons';
-import fire from './customComponents/Fire';
+import fire from '../Fire';
 
 export default class TabContents extends React.Component{
 
@@ -16,35 +16,66 @@ export default class TabContents extends React.Component{
       cellsShown: 0
     };
   }
+  onProfileButtonPressed = () => {
+    this.props.navigation.navigate('Profile');
+    console.log("Profile Button Pressed");
+  };
+
+  onNewListingButtonPressed = () => {
+    this.props.navigation.navigate('CreateListing');
+    console.log("New Listing Button Pressed");
+  };
+
+  onSeeMorePressed = () => {
+    this.props.navigation.navigate('Listing');
+    console.log("listing Button Pressed");
+  };
 
   render() {
     return (
       <View style={styles.container}>
-        <StatusBar hidden={false}/>
-        <View style={styles.statusBarPadding}/>
-        <View style={styles.topBar}>
+         <View style={styles.statusBarPadding}/>
+         <View style={styles.topBar}>
+         <View style={styles.profileButton}>
+           <FontAwesome
+             name='user'
+             size={32}
+             color='white'
+             onPress={() => this.onProfileButtonPressed()}
+             />
+         </View>
             <SearchBar containerStyle={{flex: 1, borderTopWidth: 0, borderBottomWidth: 0}}
-              selectTextOnFocus={true} placeholder='Search' placeholderTextColor={'#8086939e'}
-              onChangeText={(searchText) => {this.searchTextChanged(searchText);}}
-            />
-            <View style={styles.profileButton}>
-              <FontAwesome name='user' size={32} color='white'
-                onPress={() => {
-                  console.log('hello');
-                }}
-              />
-            </View>
-        </View>
-          <FlatList style={{flex: 1}} data={this.state.viewedCellArray} extraData={this.state}
-            refreshing={this.state.refreshing} onRefresh={this.refreshListings.bind(this)}
-            renderItem={
+               selectTextOnFocus={true} placeholder='Search' placeholderTextColor={'#8086939e'}
+               onChangeText={(searchText) => {this.searchTextChanged(searchText);}}
+             />
+             <View style={styles.newListingButton}>
+               <FontAwesome
+                 name='plus-square-o'
+                 size={32}
+                 color='white'
+                 onPress={() => this.onNewListingButtonPressed()}
+                 />
+             </View>
+         </View>
+        <FlatList data={this.state.filteredCellArray} extraData={this.state}
+          refreshing={this.state.refreshing} onRefresh={this.refreshListings.bind(this)}
+          renderItem={
             ({item}) => {
               return(
-                <Card image={{uri: item.uri}} title={item.title}/>
+                <Card image={{uri: item.uri}} title={item.title}>
+                  <Text>{item.description}</Text>
+                  <Button
+                    style={{ marginTop: 100 }}
+                    backgroundColor="transparent"
+                    title= "SEE MORE"
+                    color="green"
+                    onPress={() => this.onSeeMorePressed()}
+                  />
+                </Card>
               );
             }
           }
-          />
+        />
       </View>
     );
   }
@@ -55,6 +86,10 @@ export default class TabContents extends React.Component{
     });
   }
 
+  componentWillMount(){
+    this.refreshListings();
+  }
+
   createViewedCellArray(){
     var viewingArray = [];
     for(var i=this.state.cellsShown; i<this.state.filteredCellArray.length&&i<20; i++){
@@ -62,10 +97,6 @@ export default class TabContents extends React.Component{
     }
     this.setState({cellsShown: this.state.cellsShown+i});
     return viewingArray;
-  }
-
-  componentWillMount(){
-    this.refreshListings();
   }
 
   refreshListings(){
@@ -137,9 +168,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'steelblue'
   },
   topBar: {
-    flex: 0.1,
     flexDirection: 'row',
-    height: 60
+    height: 50,
   },
   profileButton: {
     flex: 0.15,
@@ -147,8 +177,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#393E42'
   },
-  statusBarPadding: {
-    height: 20,
+  newListingButton: {
+    flex: 0.15,
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: '#393E42'
+  },
+  statusBarPadding: {
+    height: (Platform.OS === 'ios') ? 20: 24,
+    backgroundColor: '#EFEDF1'
   }
 });

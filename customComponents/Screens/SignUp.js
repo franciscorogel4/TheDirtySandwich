@@ -1,9 +1,7 @@
 import React, {Component} from "react";
 import { Alert, Image, StyleSheet, View } from "react-native";
 import { Card, Button, FormLabel, FormInput } from "react-native-elements";
-import { onSignIn } from "./auth";
-
-import firebase from 'firebase';
+import fire from '../Fire';
 
 //export default ({ navigation }) => (
 
@@ -20,7 +18,7 @@ export default class SignUp extends Component{
 
   onSignUpPressed = () => {
     if(this.state.password.trim() === this.state.confirmPassword.trim()){
-      firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(function(){
+      fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(function(){
       }).catch(function(e){
         alert(e);
       })
@@ -42,7 +40,7 @@ export default class SignUp extends Component{
               height: 50,
               width: 370,
             }}
-            source={require("../images/NovaEmporium.png")}
+            source={require("../../images/NovaEmporium.png")}
           />
         </View>
         <Card>

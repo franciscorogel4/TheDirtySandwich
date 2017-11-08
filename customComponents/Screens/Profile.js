@@ -1,7 +1,6 @@
 import React, {Component} from "react";
-import { View } from "react-native";
-import { Card, Button, Text, TextInput } from "react-native-elements";
-import { onSignOut } from "./auth";
+import { View, Text } from "react-native";
+import { Card, Button, FormInput } from "react-native-elements";
 
 export default class Profile extends Component {
 
@@ -13,7 +12,6 @@ constructor(props){
     PhoneNumber: 'Cell Phone Number ',
     Email: 'Preferred Email Adress',
   };
-  this.onForgetPassword = this.onForgetPassword.bind(this);
 }
 
   onForgetPassword = () => {
@@ -22,7 +20,6 @@ constructor(props){
   };
 
   render() {
-    let { Name, Loc, PhoneNumber, Email } = this.state;
     return (
       <View style={{ flex: 1, paddingVertical: 5, backgroundColor: "#4783B0"}}>
         <Card title="Username">
@@ -39,41 +36,37 @@ constructor(props){
             }}
           >
           <Text style={{ color: "white", fontSize: 28 }}>User</Text>
-      </View>
-      <View style={{paddingVertical: 0}}>
-        <TextInput
-          label='Name'
-          value={Name}
-          onChangeText={ (Name) => this.setState({ Name })}
+        </View>
+        <View style={{paddingVertical: 0}}>
+          <FormInput
+            label='Name'
+            onChangeText={ (newName) => {this.setState({Name: newName });}}
           />
-        <TextInput
-          label='Location'
-          value={Loc}
-          onChangeText={ (Loc) => this.setState({ Loc })}
+          <FormInput
+            label='Location'
+            onChangeText={ (newLoc) => {this.setState({Loc: newLoc});}}
           />
-        <TextInput
-          label='Phone Number'
-          value={PhoneNumber}
-          onChangeText={ (PhoneNumber) => this.setState({ PhoneNumber })}
+          <FormInput
+            label='Phone Number'
+            onChangeText={ (newPhoneNumber) => {this.setState({ PhoneNumber: newPhoneNumber });}}
           />
-        <TextInput
-          label='Email'
-          value={Email}
-          onChangeText={ (Email) => this.setState({ Email })}
+          <FormInput
+            label='Email'
+            onChangeText={ (newEmail) => {this.setState({ Email: newEmail });}}
           />
-      </View>
+        </View>
       </Card>
         <View style= {{flex: 2, paddingVertical: 20, flexDirection: 'row', justifyContent: 'center'}}>
-        <Button
-          style={{width: 125, height: 50}}
-          backgroundColor="#5DBF6C"
-          title="Favorites"
+          <Button
+            style={{width: 125, height: 50}}
+            backgroundColor="#5DBF6C"
+            title="Favorites"
           />
-        <Button
-          style={{width: 125, height: 50}}
-          backgroundColor="#5DBF6C"
-          title="Listings"
-          onPress={() => this.onForgetPassword()}
+          <Button
+            style={{width: 125, height: 50}}
+            backgroundColor="#5DBF6C"
+            title="Listings"
+            onPress={() => this.onForgetPassword()}
           />
         </View>
       </View>

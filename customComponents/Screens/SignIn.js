@@ -1,8 +1,7 @@
 import React, {Component} from "react";
 import { StatusBar, Platform, Alert, StyleSheet, View, Image } from "react-native";
 import { Card, Button, FormLabel, FormInput } from "react-native-elements";
-import { onSignIn } from "./auth";
-import fire from './Fire';
+import fire from '../Fire';
 
 export default class SignIn extends Component{
 
@@ -47,7 +46,7 @@ export default class SignIn extends Component{
               height: 125,
               width: 370,
             }}
-            source={require("../images/NovaEmporium.png")}
+            source={require("../../images/NovaEmporium.png")}
           />
         </View>
         <Card>

@@ -1,12 +1,12 @@
 import React from 'react';
 import { Platform, View, StyleSheet } from 'react-native';
 import { StackNavigator, TabNavigator, TabBarBottom } from "react-navigation";
-import { BookTab, FurnitureTab, TutorTab, CarpoolTab, RoommateTab } from './ListingTabs';
-import CreateListing from './CreateListing';
-import SignIn from './SignIn';
-import SignUp from './SignUp';
-import Profile from './Profile';
-import ForgotPassword from './ForgotPassword';
+import { BookTab, FurnitureTab, TutorTab, CarpoolTab, RoommateTab } from './Screens/ListingTabs';
+import CreateListing from './Screens/CreateListing';
+import SignIn from './Screens/SignIn';
+import SignUp from './Screens/SignUp';
+import Profile from './Screens/Profile';
+import ForgotPassword from './Screens/ForgotPassword';
 
 export const InitialStackNavigator = StackNavigator({
   SignIn: {
@@ -35,10 +35,16 @@ export const InitialStackNavigator = StackNavigator({
     }
   },
   CreateListing: {
-    screen: CreateListing
+    screen: CreateListing,
+    navigationOptions: {
+      tabBarVisible: false
+    }
   },
   Profile: {
-    screen: Profile
+    screen: Profile,
+    navigationOptions: {
+      tabBarVisible: false
+    }
   }},
   {
     initialRouteName: 'SignIn'
@@ -52,7 +58,16 @@ export const TutorStackNav = StackNavigator({
     }
   },
   CreateListing: {
-    screen: CreateListing
+    screen: CreateListing,
+    navigationOptions: {
+      tabBarVisible: false
+    }
+  },
+  Profile: {
+    screen: Profile,
+    navigationOptions: {
+      tabBarVisible: false
+    }
   }
 });
 
@@ -64,7 +79,16 @@ export const FurnitureStackNav = StackNavigator({
     }
   },
   CreateListing: {
-    screen: CreateListing
+    screen: CreateListing,
+    navigationOptions: {
+      tabBarVisible: false
+    }
+  },
+  Profile: {
+    screen: Profile,
+    navigationOptions: {
+      tabBarVisible: false
+    }
   }
 });
 
@@ -76,7 +100,16 @@ export const RoommateStackNav = StackNavigator({
     }
   },
   CreateListing: {
-    screen: CreateListing
+    screen: CreateListing,
+    navigationOptions: {
+      tabBarVisible: false
+    }
+  },
+  Profile: {
+    screen: Profile,
+    navigationOptions: {
+      tabBarVisible: false
+    }
   }
 });
 
@@ -88,7 +121,16 @@ export const CarpoolStackNav = StackNavigator({
     }
   },
   CreateListing: {
-    screen: CreateListing
+    screen: CreateListing,
+    navigationOptions: {
+      tabBarVisible: false
+    }
+  },
+  Profile: {
+    screen: Profile,
+    navigationOptions: {
+      tabBarVisible: false
+    }
   }
 });
 
@@ -121,7 +163,7 @@ export const TabNav = TabNavigator({
 
 export default class MasterTabNav extends React.Component{
   render(){
-    return(      
+    return(
         <TabNav/>
     );
   }

@@ -1,8 +1,7 @@
 import React, {Component} from "react";
 import { Alert, StyleSheet, View } from "react-native";
 import { Card, Button, FormLabel, FormInput } from "react-native-elements";
-import { onSignIn } from "./auth";
-import fire from './Fire';
+import fire from '../Fire';
 
 export default class ForgotPassword extends Component {
 
