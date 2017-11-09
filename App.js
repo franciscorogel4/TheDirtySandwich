@@ -1,12 +1,17 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Main from './willem-wf3/Main';
-import LogIn from './scacela-wf5/InitialScreen';
+import MasterTabNav from './customComponents/router';
+import CameraRollView from './customComponents/Screens/CameraRollView';
+
 
 export default class App extends React.Component {
   render() {
     return (
+<<<<<<< HEAD
+      <MasterTabNav/>
+=======
       <Main/>
+>>>>>>> master
     );
   }
 }
