@@ -7,11 +7,7 @@ import CameraRollView from './customComponents/Screens/CameraRollView';
 export default class App extends React.Component {
   render() {
     return (
-<<<<<<< HEAD
       <MasterTabNav/>
-=======
-      <Main/>
->>>>>>> master
     );
   }
 }
