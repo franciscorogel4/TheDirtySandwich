@@ -6,7 +6,10 @@ import CreateListing from './Screens/CreateListing';
 import SignIn from './Screens/SignIn';
 import SignUp from './Screens/SignUp';
 import Profile from './Screens/Profile';
+import ResetPassword from './Screens/ResetPassword';
 import ForgotPassword from './Screens/ForgotPassword';
+import Settings from './Screens/Settings';
+import DeleteAccountPage from './Screens/DeleteAccountPage';
 
 export const InitialStackNavigator = StackNavigator({
   SignIn: {
@@ -24,6 +27,24 @@ export const InitialStackNavigator = StackNavigator({
   },
   ForgotPassword: {
     screen: ForgotPassword,
+    navigationOptions: {
+      tabBarVisible: false
+    }
+  },
+  ResetPassword: {
+    screen: ResetPassword,
+    navigationOptions: {
+      tabBarVisible: false
+    }
+  },
+  Settings: {
+    screen: Settings,
+    navigationOptions: {
+      tabBarVisible: false
+    }
+  },
+  DeleteAccountPage: {
+    screen: DeleteAccountPage,
     navigationOptions: {
       tabBarVisible: false
     }

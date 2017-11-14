@@ -15,13 +15,15 @@ export default class SignIn extends Component{
     }
   }
 
+  // javascript context (look up the word this in javascript)
   onSignInPressed = () => {
+    let that = this;
+
     fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then(function(){
-      Alert.alert("you have been signed in");
+      that.props.navigation.navigate('BookTab');
     }).catch(function(e){
         alert(e);
       })
-    this.props.navigation.navigate('BookTab');
   };
 
   onForgetPassword = () => {
@@ -34,12 +36,32 @@ export default class SignIn extends Component{
     console.log("SignUp Pressed");
   };
 
+  onContinueAsGuestButtonPressed = () => {
+    this.props.navigation.navigate('BookTab');
+    Alert.alert("Logged in as a Guest. In order to create a listing, you must make an account.");
+    console.log("Continue as Guest button pressed");
+  }
+
+  // for testing
+  onPressButton = () =>{
+    var user = fire.auth().currentUser;
+
+    if (user) {
+      // User is signed in.
+      console.log("User is signed in: " + user.email);
+    } else {
+      // No user is signed in.
+      console.log("User is not sighed in ");
+    }
+  }
+
   render(){
     return(
       <View style={styles.container}>
         <StatusBar hidden={false}/>
         <View style={styles.statusBarPadding}/>
-        <View style={{paddingTop: 10}}>
+
+        <View style={styles.appName}>
           <Image
             style={{
               alignSelf: 'center',
@@ -49,40 +71,52 @@ export default class SignIn extends Component{
             source={require("../../images/NovaEmporium.png")}
           />
         </View>
-        <Card>
-          <FormLabel>Email</FormLabel>
-          <FormInput
-            placeholder="Email address..."
-            onChangeText={(email) => this.setState({email})}
-          />
 
-          <FormLabel>Password</FormLabel>
-          <FormInput secureTextEntry placeholder="Password..."
-            onChangeText={(password) => this.setState({password})}
-          />
+        <View style={styles.card}>
+          <Card>
+            <FormLabel>Email</FormLabel>
+            <FormInput
+              placeholder="Email address..."
+              onChangeText={(email) => this.setState({email})}
+            />
 
+            <FormLabel>Password</FormLabel>
+            <FormInput secureTextEntry placeholder="Password..."
+              onChangeText={(password) => this.setState({password})}
+            />
+
+            <Button
+              buttonStyle={{ marginTop: 20 }}
+              backgroundColor="#5DBF6C"
+              title="SIGN IN"
+              onPress={() => this.onSignInPressed()}
+            />
+
+            <Button
+              style={{ marginTop: 15 }}
+              backgroundColor="transparent"
+              title= 'Forgot Password?'
+              color="#00AEFF"
+              onPress={() => this.onForgetPassword()}
+            />
+          </Card>
+        </View>
+
+        <View style={styles.bottomButton}>
           <Button
-            buttonStyle={{ marginTop: 20 }}
-            backgroundColor="#5DBF6C"//#03A9F4
-            title="SIGN IN"
-            onPress={() => this.onSignInPressed()}
-
-          />
-          <Button
-            style={{ marginTop: 15 }}
             backgroundColor="transparent"
-            title= 'Forgot Password?'
-            color="#00AEFF"
-            onPress={() => this.onForgetPassword()}
-          />
-        </Card>
-        <Button
-          style={{ marginTop: 100 }}
-          backgroundColor="transparent"
-          title= "Don't have an account? Sign Up"
-          color="#F0F0F0"
-          onPress={() => this.onSignUpButtonPressed()}
-        />
+            title= 'Continue as Guest'
+            color="#F0F0F0"
+            onPress={() => this.onContinueAsGuestButtonPressed()}
+            />
+          <Button
+            backgroundColor="transparent"
+            title= "Don't have an account? Sign Up"
+            color="#F0F0F0"
+            onPress={() => this.onSignUpButtonPressed()}
+            />
+        </View>
+
       </View>
     );
   }
@@ -96,5 +130,15 @@ const styles = StyleSheet.create({
   statusBarPadding: {
     height: (Platform.OS === 'ios') ? 20: 24,
     backgroundColor: '#EFEDF1'
-  }
+  },
+  appName: {
+    flex: 1,
+    marginTop:40
+  },
+  card: {
+    flex: 4,
+    justifyContent: 'center',
+  },
+  bottomButton: {
+    flex: 1  }
 });

@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import { Alert, Image, StyleSheet, View } from "react-native";
 import { Card, Button, FormLabel, FormInput } from "react-native-elements";
 import fire from '../Fire';
+import { FontAwesome } from '@expo/vector-icons';
 
 //export default ({ navigation }) => (
 
@@ -10,10 +11,39 @@ export default class SignUp extends Component{
   constructor(props){
     super(props);
     this.state = {
+      firstName: "",
+      lastName: "",
       email: "",
       password: "",
-      confirmPassword: ""
+      confirmPassword: "",
+      location: "",
+      cellPhoneNumber: ""
     }
+
+    this.itemsRef = fire.database().ref();
+  }
+
+  listenForItems(itemsRef) {
+    itemsRef.on('AppUsers', (snap) => {
+
+      // get children as an array
+      var items = [];
+      snap.forEach((child) => {
+        items.push({
+          title: child.val().title,
+          _key: child.key
+        });
+      });
+
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(items)
+      });
+
+    });
+  }
+
+  onPress = (text) => {
+    this.itemsRef.push(text)
   }
 
   onSignUpPressed = () => {
@@ -31,24 +61,30 @@ export default class SignUp extends Component{
   };
 
   render(){
+    /*<View>
+      <Image
+        style={{
+          alignSelf: 'user',
+          height: 50,
+          width: 370,
+        }}
+        source={require("../../images/NovaEmporium.png")}
+      />
+    </View>*/
     return(
       <View style={styles.container}>
-        <View>
-          <Image
-            style={{
-              alignSelf: 'center',
-              height: 50,
-              width: 370,
-            }}
-            source={require("../../images/NovaEmporium.png")}
-          />
-        </View>
         <Card>
 
-          <FormLabel>Name</FormLabel>
+          <FormLabel>First Name</FormLabel>
           <FormInput
-            secureTextEntry placeholder="Name..."
-            onChangeText={(confirmPassword) => this.setState({confirmPassword})}
+            placeholder="First Name..."
+            onChangeText={(firstName) => this.setState({firstName})}
+            />
+
+          <FormLabel>Last Name</FormLabel>
+          <FormInput
+            placeholder="Last Name..."
+            onChangeText={(lastName) => this.setState({lastName})}
             />
 
           <FormLabel>Email</FormLabel>
@@ -71,14 +107,14 @@ export default class SignUp extends Component{
 
           <FormLabel>Location</FormLabel>
           <FormInput
-            secureTextEntry placeholder="Location...(Wayne, Devon, etc...)"
-            onChangeText={(password) => this.setState({password})}
+           placeholder="Location...(Wayne, Devon, etc...)"
+            onChangeText={(location) => this.setState({location})}
             />
 
           <FormLabel>Cell Phone Number</FormLabel>
           <FormInput
-            secureTextEntry placeholder="Cell Phone Number..."
-            onChangeText={(confirmPassword) => this.setState({confirmPassword})}
+            placeholder="Cell Phone Number..."
+            onChangeText={(cellPhoneNumber) => this.setState({cellPhoneNumber})}
           />
 
           <Button
@@ -86,7 +122,6 @@ export default class SignUp extends Component{
               backgroundColor="#03A9F4"
               title="SIGN UP"
               onPress={() => this.onSignUpPressed()}
-            //}}
           />
         </Card>
       </View>

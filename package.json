@@ -20,8 +20,10 @@
   },
   "dependencies": {
     "expo": "^21.0.0",
+    "firebase": "^4.6.1",
     "react": "^16.0.0-alpha.12",
     "react-native": "^0.48.4",
+    "react-native-material-textfield": "^0.10.2",
     "react-native-vector-icons": "^4.2.0"
   }
 }

@@ -38,6 +38,7 @@ export default class TabContents extends React.Component{
          <View style={styles.topBar}>
          <View style={styles.profileButton}>
            <FontAwesome
+             style={{ marginLeft: 5 }}
              name='user'
              size={32}
              color='white'
@@ -50,6 +51,7 @@ export default class TabContents extends React.Component{
              />
              <View style={styles.newListingButton}>
                <FontAwesome
+                 style={{ marginRight: 5 }}
                  name='plus-square-o'
                  size={32}
                  color='white'
