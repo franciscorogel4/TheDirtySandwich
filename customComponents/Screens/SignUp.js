@@ -86,7 +86,6 @@ export default class SignUp extends Component{
               backgroundColor="#03A9F4"
               title="SIGN UP"
               onPress={() => this.onSignUpPressed()}
-            //}}
           />
         </Card>
       </View>

@@ -7,6 +7,7 @@ import SignIn from './Screens/SignIn';
 import SignUp from './Screens/SignUp';
 import Profile from './Screens/Profile';
 import ForgotPassword from './Screens/ForgotPassword';
+import CameraRollView from './Screens/CameraRollView';
 
 export const InitialStackNavigator = StackNavigator({
   SignIn: {
@@ -36,6 +37,12 @@ export const InitialStackNavigator = StackNavigator({
   },
   CreateListing: {
     screen: CreateListing,
+    navigationOptions: {
+      tabBarVisible: false
+    }
+  },
+  CameraRoll: {
+    screen: CameraRollView,
     navigationOptions: {
       tabBarVisible: false
     }

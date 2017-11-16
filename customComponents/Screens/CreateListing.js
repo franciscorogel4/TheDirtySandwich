@@ -1,6 +1,7 @@
 import React from 'react';
-import { Alert, TouchableOpacity, Platform, StyleSheet, Text, View, FlatList } from 'react-native';
+import { Alert, TouchableOpacity, Platform, StyleSheet, Text, View, FlatList, Button, Image } from 'react-native';
 import { FormInput, FormLabel, CheckBox, Card } from 'react-native-elements';
+import { NavigationActions } from 'react-navigation';
 import fire from '../Fire';
 
 
@@ -29,11 +30,17 @@ class Form extends React.Component {
       price: '',
       description: '',
       altEmail: '',
-      altPhone: ''
+      altPhone: '',
+      getUrisFromCameraRollView: (uriArray) => {
+        this.setState({getUrisFromCameraRollView: uriArray});
+      }
     };
   }
 
   render(){
+    const imageUris = [{'key': 'a', uri: require('../../images/noImage.png')}, {'key': 'b', uri: require('../../images/noImage.png')},
+                {'key': 'c', uri: require('../../images/noImage.png')}, {'key': 'd', uri: require('../../images/noImage.png')},
+                {'key': 'e', uri: require('../../images/noImage.png')}]
     return(
       <View style={styles.container}>
         <View style={styles.divider}>
@@ -120,6 +127,23 @@ class Form extends React.Component {
           <Text>{''}</Text>
         </View>
         <Card title='Listing Images'>
+          <View style={{height: 110, backgroundColor: 'white'}}>
+            <FlatList horizontal={true} extraData={this.state.getUrisFromCameraRollView}
+              data={(Array.isArray(this.state.getUrisFromCameraRollView)) ? this.state.getUrisFromCameraRollView : imageUris}
+              renderItem={(asset) => {
+                return(
+                  <Image style={styles.chosenImage} source={asset.item.uri}/>
+                );
+              }}
+            />
+          </View>
+          <Button title='Select Images' onPress={() => {
+            this.setState({getUrisFromCameraRollView: (uriArray) => {
+              this.setState({getUrisFromCameraRollView: uriArray});
+            }}, () => {
+              this.props.navigation.navigate('CameraRoll', {setListingImages: this.state.getUrisFromCameraRollView});
+            });
+          }}/>
         </Card>
         <View style={styles.divider}>
           <Text>{''}</Text>
@@ -187,9 +211,11 @@ class Form extends React.Component {
   }
 
   writeUserData(){
+    console.log(fire.storage().ref().child('images/'));
     if(this.state.canSubmit){
       var updateData = {};
-      var listingKey = fire.database().ref('listings/' + this.hasListingType()).push().key;
+      var listingType = this.hasListingType();
+      var listingKey = fire.database().ref('listings/' + listingType).push().key;
       var listingData = {
         description: this.state.description,
         email: (this.hasSavedContactInfo()) ? '' : this.state.altEmail,
@@ -200,6 +226,8 @@ class Form extends React.Component {
         title: this.state.title,
         uri: ''
       };
+
+      console.log(fire.storage().ref().child('images/' + listingType + '/' + listingKey));
 
       updateData['listings/' + this.hasListingType() + '/' + listingKey] = listingData;
       fire.database().ref().update(updateData).then((acceptValue) => {
@@ -214,6 +242,7 @@ class Form extends React.Component {
       }).catch((error) => {
         conosle.log(error.code);
       });
+
     }
   }
 
@@ -284,15 +313,16 @@ const styles = StyleSheet.create({
     flex: 0.1,
     backgroundColor: 'steelblue'
   },
-  submitButton: {
-    backgroundColor: 'orange',
-    color: 'black'
-  },
   warningMessageView: {
     justifyContent: 'center',
     alignItems: 'center'
   },
   warningMessage: {
     color: 'red'
+  },
+  chosenImage: {
+    height: 100,
+    width: 100,
+    margin: 5
   }
 });
