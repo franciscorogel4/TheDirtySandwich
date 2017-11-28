@@ -3,6 +3,10 @@ import { Alert, Image, StyleSheet, View } from "react-native";
 import { Card, Button, FormLabel, FormInput } from "react-native-elements";
 import fire from '../Fire';
 import { FontAwesome } from '@expo/vector-icons';
+import ScreenColor from '../../ScreenColor';
+
+const scrColor = ScreenColor.color0;
+const buttonColor = ScreenColor.color2;
 
 //export default ({ navigation }) => (
 
@@ -119,7 +123,7 @@ export default class SignUp extends Component{
 
           <Button
             buttonStyle={{ marginTop: 20 }}
-              backgroundColor="#03A9F4"
+              backgroundColor={buttonColor}
               title="SIGN UP"
               onPress={() => this.onSignUpPressed()}
           />
@@ -132,6 +136,6 @@ export default class SignUp extends Component{
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#4783B0'
+    backgroundColor: scrColor
   }
 });

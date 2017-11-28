@@ -11,6 +11,9 @@ import ForgotPassword from './Screens/ForgotPassword';
 import Settings from './Screens/Settings';
 import DeleteAccountPage from './Screens/DeleteAccountPage';
 
+import ListingInfo from './Screens/ListingInfo';
+import SwipeScreen from './Screens/SwipeScreen';
+
 export const InitialStackNavigator = StackNavigator({
   SignIn: {
     screen: SignIn,
@@ -27,6 +30,18 @@ export const InitialStackNavigator = StackNavigator({
   },
   ForgotPassword: {
     screen: ForgotPassword,
+    navigationOptions: {
+      tabBarVisible: false
+    }
+  },
+  ListingInfo: {
+    screen: ListingInfo,
+    navigationOptions: {
+      tabBarVisible: false
+    }
+  },
+  SwipeScreen: {
+    screen: SwipeScreen,
     navigationOptions: {
       tabBarVisible: false
     }

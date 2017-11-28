@@ -3,6 +3,7 @@ import { Platform, TouchableOpacity, StyleSheet, Text, View, FlatList, Button } 
 import { SearchBar, Card } from 'react-native-elements';
 import { FontAwesome } from '@expo/vector-icons';
 import fire from '../Fire';
+import ScreenColor from '../../ScreenColor';
 
 export default class TabContents extends React.Component{
 
@@ -24,11 +25,6 @@ export default class TabContents extends React.Component{
   onNewListingButtonPressed = () => {
     this.props.navigation.navigate('CreateListing');
     console.log("New Listing Button Pressed");
-  };
-
-  onSeeMorePressed = () => {
-    this.props.navigation.navigate('Listing');
-    console.log("listing Button Pressed");
   };
 
   render() {
@@ -64,16 +60,19 @@ export default class TabContents extends React.Component{
           renderItem={
             ({item}) => {
               return(
+                <TouchableOpacity styleName="flexible" onPress={() => this.props.navigation.navigate('ListingInfo', {itemKey : item}) }>
                 <Card image={{uri: item.uri}} title={item.title}>
                   <Text>{item.description}</Text>
-                  <Button
-                    style={{ marginTop: 100 }}
-                    backgroundColor="transparent"
-                    title= "SEE MORE"
-                    color="green"
-                    onPress={() => this.onSeeMorePressed()}
-                  />
+                  <View style={styles.favoriteButton}>
+                    <FontAwesome
+                      name='heart-o'
+                      size={32}
+                      color= {ScreenColor.color3}
+                      onPress={() => this.onProfileButtonPressed()}
+                      />
+                  </View>
                 </Card>
+                </TouchableOpacity>
               );
             }
           }
@@ -167,7 +166,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: 'steelblue'
+    backgroundColor: ScreenColor.color0
   },
   topBar: {
     flexDirection: 'row',
@@ -177,13 +176,13 @@ const styles = StyleSheet.create({
     flex: 0.15,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#393E42'
+    backgroundColor: ScreenColor.color0
   },
   newListingButton: {
     flex: 0.15,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#393E42'
+    backgroundColor: ScreenColor.color0
   },
   statusBarPadding: {
     height: (Platform.OS === 'ios') ? 20: 24,

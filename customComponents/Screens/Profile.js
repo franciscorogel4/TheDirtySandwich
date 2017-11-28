@@ -3,8 +3,10 @@ import { View, Text } from "react-native";
 import { Card, Button, FormInput, FormLabel } from "react-native-elements";
 import { TextField } from 'react-native-material-textfield';
 import {Octicons } from '@expo/vector-icons';
-
+import ScreenColor from '../../ScreenColor';
 import firebase from '../Fire';
+
+const scrColor = ScreenColor.color0;
 
 export default class Profile extends Component {
 
@@ -19,10 +21,16 @@ constructor(props){
   };
 }
 
-  onPressGear = () => {
-    this.props.navigation.navigate('Settings');
-    console.log("Settings Gear Pressed");
-  };
+onForgetPassword = () => {
+  this.props.navigation.navigate('ForgotPassword', this);
+  console.log("ForgotPassword Pressed");
+};
+
+
+    onPressGear = () => {
+      this.props.navigation.navigate('Settings');
+      console.log("Settings Gear Pressed");
+    };
 
   // will delete soon. This was for testing. If not deleted, you can remove it
   onPressButton = () =>{
@@ -39,7 +47,7 @@ constructor(props){
 
   render() {
     return (
-      <View style={{ flex: 1, paddingVertical: 5, backgroundColor: "#4783B0"}}>
+      <View style={{ flex: 1, paddingVertical: 5, backgroundColor: scrColor}}>
         <Card title="Username">
         <Octicons
           style={{ color: "grey", marginLeft: 275 }}
@@ -51,7 +59,7 @@ constructor(props){
 
           <View
             style={{
-              backgroundColor: "#4783B0",
+              backgroundColor: scrColor,
               alignItems: "center",
               justifyContent: "center",
               width: 125,
@@ -104,6 +112,7 @@ constructor(props){
             style={{width: 125, height: 50}}
             backgroundColor="#5DBF6C"
             title="Listings"
+            onPress={() => this.onForgetPassword()}
           />
         </View>
       </View>
