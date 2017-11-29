@@ -1,12 +1,15 @@
 import React from 'react';
 import { Entypo, MaterialCommunityIcons, FontAwesome, Ionicons } from '@expo/vector-icons';
 import TabContents from './TabContents';
+import ScreenColor from '../../ScreenColor';
+
+const tabColor = ScreenColor.color3;
 
 export class BookTab extends React.Component{
   static navigationOptions = {
     tabBarLabel: 'Books',
     tabBarIcon: () => (
-      <Entypo name='book' size={24}/>
+      <Entypo name='book' size={24} color={tabColor}/>
     )
   };
   render(){
@@ -20,7 +23,8 @@ export class TutorTab extends React.Component{
   static navigationOptions = {
     tabBarLabel: 'Tutoring',
     tabBarIcon: () => (
-      <Entypo name='graduation-cap' size={24}/>
+      <Entypo name='graduation-cap' size={24} color={tabColor}/>
+
     )
   };
   render(){
@@ -34,7 +38,7 @@ export class FurnitureTab extends React.Component{
   static navigationOptions = {
     tabBarLabel: 'Furniture',
     tabBarIcon: () => (
-      <MaterialCommunityIcons name='lamp' size={24}/>
+      <MaterialCommunityIcons name='lamp' size={24} color={tabColor}/>
     )
   };
   render(){
@@ -48,7 +52,7 @@ export class RoommateTab extends React.Component{
   static navigationOptions = {
     tabBarLabel: 'Roommate',
     tabBarIcon: () => (
-      <Ionicons name='md-person' size={24}/>
+      <Ionicons name='md-person' size={24} color={tabColor}/>
     )
   };
   render(){
@@ -62,7 +66,7 @@ export class CarpoolTab extends React.Component{
   static navigationOptions = {
     tabBarLabel: 'Carpool',
     tabBarIcon: () => (
-      <FontAwesome name='car' size={24}/>
+      <FontAwesome name='car' size={24} color={tabColor}/>
     )
   };
   render(){

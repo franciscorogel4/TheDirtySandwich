@@ -1,8 +1,9 @@
 import React, {Component} from "react";
 import { Alert, StyleSheet, View } from "react-native";
 import { Card, Button, FormLabel, FormInput } from "react-native-elements";
-import firebase from '../Fire';
+//import firebase from '../Fire';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import firebase from 'firebase';
 
 
 export default class ForgotPassword extends Component {
@@ -37,7 +38,7 @@ export default class ForgotPassword extends Component {
           <FormLabel>Email</FormLabel>
           <FormInput
             placeholder="Enter your email address"
-            onChangeText={(email) => this.setState({email})}
+            onChangeText={(email) => this.setState({email: email})}
           />
 
           <Button

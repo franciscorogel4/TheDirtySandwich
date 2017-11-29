@@ -2,6 +2,10 @@ import React, {Component} from "react";
 import { StatusBar, Platform, Alert, StyleSheet, View, Image } from "react-native";
 import { Card, Button, FormLabel, FormInput } from "react-native-elements";
 import fire from '../Fire';
+import ScreenColor from '../../ScreenColor';
+
+const scrColor = ScreenColor.color0;
+const buttonColor = ScreenColor.color2;
 
 export default class SignIn extends Component{
 
@@ -37,8 +41,12 @@ export default class SignIn extends Component{
   };
 
   onContinueAsGuestButtonPressed = () => {
+    var user = fire.auth().currentUser;
+    if (user){
+      fire.auth().signOut();
+    }
     this.props.navigation.navigate('BookTab');
-    Alert.alert("Logged in as a Guest. In order to create a listing, you must make an account.");
+    //Alert.alert("Logged in as a Guest. In order to create a listing, you must make an account.");
     console.log("Continue as Guest button pressed");
   }
 
@@ -87,7 +95,7 @@ export default class SignIn extends Component{
 
             <Button
               buttonStyle={{ marginTop: 20 }}
-              backgroundColor="#5DBF6C"
+              backgroundColor={buttonColor}
               title="SIGN IN"
               onPress={() => this.onSignInPressed()}
             />
@@ -125,7 +133,7 @@ export default class SignIn extends Component{
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#4783B0'
+    backgroundColor: scrColor
   },
   statusBarPadding: {
     height: (Platform.OS === 'ios') ? 20: 24,

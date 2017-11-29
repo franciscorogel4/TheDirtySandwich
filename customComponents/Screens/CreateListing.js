@@ -2,7 +2,9 @@ import React from 'react';
 import { Alert, TouchableOpacity, Platform, StyleSheet, Text, View, FlatList } from 'react-native';
 import { FormInput, FormLabel, CheckBox, Card } from 'react-native-elements';
 import fire from '../Fire';
+import ScreenColor from '../../ScreenColor';
 
+const scrColor = ScreenColor.color0;
 
 export default class CreateListing extends React.Component {
   constructor(props){
@@ -262,7 +264,7 @@ class Form extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'steelblue',
+    backgroundColor: scrColor,
     justifyContent: 'center',
   },
   buttonGroup: {
@@ -282,7 +284,7 @@ const styles = StyleSheet.create({
   },
   divider: {
     flex: 0.1,
-    backgroundColor: 'steelblue'
+    backgroundColor: scrColor
   },
   submitButton: {
     backgroundColor: 'orange',
