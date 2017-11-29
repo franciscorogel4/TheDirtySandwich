@@ -51,14 +51,15 @@ constructor(props){
 
     user.reauthenticateWithCredential(cred).then(function() {
       // User re-authenticated.
-      console.log("User has been reauthenticateWithCredentials ")
+      console.log("User has been reauthenticateWithCredentials. About to delete ")
       user.delete().then(() => {
-        console.log(".then for user.delete");
+        console.log("Deleted account for user " + userEmail);
         that.props.navigation.navigate('SignIn');
+        Alert.alert("Account deleted");
       });
     }).catch(function(error) {
       console.log("User probably typed wrong password or no password");
-      Alert.alert("The Passwor you entered for " + userEmail + " is incorrect");
+      Alert.alert("The Password you entered for " + userEmail + " is incorrect");
     });
   }
 

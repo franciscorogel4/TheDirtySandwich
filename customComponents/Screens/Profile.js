@@ -4,6 +4,7 @@ import { Card, Button, FormInput, FormLabel } from "react-native-elements";
 import { TextField } from 'react-native-material-textfield';
 import {Octicons } from '@expo/vector-icons';
 import ScreenColor from '../../ScreenColor';
+
 import firebase from '../Fire';
 
 const scrColor = ScreenColor.color0;
@@ -13,24 +14,45 @@ export default class Profile extends Component {
 constructor(props){
   super(props);
   this.state = {
-    Name: 'Name',
+    Name: 'should change',
     Loc: 'Location',
     PhoneNumber: 'Cell Phone Number ',
     Email: 'Preferred Email Adress',
-
+    Initials: "Initials"
   };
 }
 
-onForgetPassword = () => {
-  this.props.navigation.navigate('ForgotPassword', this);
-  console.log("ForgotPassword Pressed");
-};
+  componentWillMount(){
 
+    var user = firebase.auth().currentUser;
+    var UserFirstName;
+    var UserLastName;
+    var UserCellPhoneNumber;
+    var UserEmail;
+    var UserLocation;
 
-    onPressGear = () => {
-      this.props.navigation.navigate('Settings');
-      console.log("Settings Gear Pressed");
-    };
+    var that = this;
+    firebase.database().ref('/empUsers/' + user.uid).on("value", function (snap) {
+      console.log("The userID: " + user.uid);
+      UserFirstName = snap.child("FirstName").val();
+      UserLastName = snap.child("LastName").val();
+      UserEmail = snap.child("Email").val();
+      UserCellPhoneNumber = snap.child("CellPhoneNumber").val();
+      UserLocation = snap.child("Location").val();
+
+      that.setState({Name : (UserFirstName+" "+UserLastName)});
+      that.setState({Loc : UserLocation});
+      that.setState({PhoneNumber : UserCellPhoneNumber});
+      that.setState({Email : UserEmail});
+
+      that.setState({Initials : (UserFirstName.charAt(0) + UserLastName.charAt(0))});
+    });
+  }
+
+  onPressGear = () => {
+    this.props.navigation.navigate('Settings');
+    console.log("Settings Gear Pressed");
+  };
 
   // will delete soon. This was for testing. If not deleted, you can remove it
   onPressButton = () =>{
@@ -47,8 +69,8 @@ onForgetPassword = () => {
 
   render() {
     return (
-      <View style={{ flex: 1, paddingVertical: 5, backgroundColor: scrColor}}>
-        <Card title="Username">
+      <View style={{ flex: 1, paddingVertical: 5, backgroundColor: "#4783B0"}}>
+        <Card title="My Account Info">
         <Octicons
           style={{ color: "grey", marginLeft: 275 }}
           name='gear'
@@ -59,7 +81,7 @@ onForgetPassword = () => {
 
           <View
             style={{
-              backgroundColor: scrColor,
+              backgroundColor: "#4783B0",
               alignItems: "center",
               justifyContent: "center",
               width: 125,
@@ -69,40 +91,40 @@ onForgetPassword = () => {
               marginBottom: 0
             }}
           >
-          <Text style={{ color: "white", fontSize: 28 }}>User</Text>
+          <Text style={{ color: "white", fontSize: 50 }}>{this.state.Initials}</Text>
         </View>
         <View style={{paddingVertical: 0}}>
           <FormLabel>Name</FormLabel>
           <FormInput
-            placeholder="Name..."
+            placeholder= { this.state.Name }
             label='Name'
-            onChangeText={ (newName) => {this.setState({Name: newName });}}
+            onChangeText={ (newName) => {this.setState({Name: newName});}}
           />
 
           <FormLabel>Email</FormLabel>
           <FormInput
-            placeholder="Email"
+            placeholder= { this.state.Email }
             label='Email'
             onChangeText={ (newEmail) => {this.setState({ Email: newEmail });}}
           />
 
           <FormLabel>Phone number</FormLabel>
           <FormInput
-            placeholder="Phone number..."
+            placeholder= {this.state.PhoneNumber}
             label='Location'
             onChangeText={ (newLoc) => {this.setState({Loc: newLoc});}}
           />
 
           <FormLabel>Location</FormLabel>
           <FormInput
-            placeholder="Location...(Wayne, Devon, etc...)"
+            placeholder= {this.state.Loc}
             label='Phone Number'
             onChangeText={ (newPhoneNumber) => {this.setState({ PhoneNumber: newPhoneNumber });}}
           />
 
         </View>
       </Card>
-        <View style= {{flex: 2, paddingVertical: 20, flexDirection: 'row', justifyContent: 'center'}}>
+        <View style= {{flex: 2, paddingVertical: 15, flexDirection: 'row', justifyContent: 'center'}}>
           <Button
             style={{width: 125, height: 50}}
             backgroundColor="#5DBF6C"
@@ -112,7 +134,6 @@ onForgetPassword = () => {
             style={{width: 125, height: 50}}
             backgroundColor="#5DBF6C"
             title="Listings"
-            onPress={() => this.onForgetPassword()}
           />
         </View>
       </View>

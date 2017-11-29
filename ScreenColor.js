@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
 const styles = {
-  color0: '#101349',
-  color1: '#4783B0',
+  color1: '#101349',
+  color0: '#4783B0',
   color2: '#5DBF6C',
   color3: '#393E42',
 }
