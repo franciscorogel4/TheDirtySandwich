@@ -32,7 +32,10 @@ export default class SignUp extends Component{
     var email = this.state.email;
     var location = this.state.location;
     var cellPhoneNumber = this.state.cellPhoneNumber;
+<<<<<<< HEAD
     var favorites = this.state.favorites;
+=======
+>>>>>>> 9136c3514be0d43d4cf00c56d72cfd6b9c96f7ca
 
     let that = this;
 
@@ -47,8 +50,12 @@ export default class SignUp extends Component{
         LastName: lname,
         Email: email,
         Location: location,
+<<<<<<< HEAD
         CellPhoneNumber: cellPhoneNumber,
         Favorites: favorites
+=======
+        CellPhoneNumber: cellPhoneNumber
+>>>>>>> 9136c3514be0d43d4cf00c56d72cfd6b9c96f7ca
       });
 
       }).catch(function(e){

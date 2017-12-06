@@ -19,6 +19,7 @@ export default class TabContents extends React.Component{
     };
   }
 
+<<<<<<< HEAD
   onFavoriteButtonPressed = (a) => {
 
     if (this.state.liked[a.key] == 'star-o') {
@@ -42,6 +43,8 @@ export default class TabContents extends React.Component{
 
 
 
+=======
+>>>>>>> 9136c3514be0d43d4cf00c56d72cfd6b9c96f7ca
   onProfileButtonPressed = () => {
     var user = fire.auth().currentUser;
 
@@ -138,10 +141,17 @@ export default class TabContents extends React.Component{
                   <Text>{item.description}</Text>
                   <View style={styles.favoriteButton}>
                     <FontAwesome
+<<<<<<< HEAD
                       name={this.state.liked[item.key]}
                       size={32}
                       color= {ScreenColor.color4}
                       onPress={() => this.onFavoriteButtonPressed(item)}
+=======
+                      name='star-o'
+                      size={32}
+                      color= {ScreenColor.color3}
+                      onPress={() => fire.database().ref('empUsers/Paco/favorites').push({item})}
+>>>>>>> 9136c3514be0d43d4cf00c56d72cfd6b9c96f7ca
                       />
                   </View>
                 </Card>
