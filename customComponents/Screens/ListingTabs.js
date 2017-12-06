@@ -24,6 +24,7 @@ export class TutorTab extends React.Component{
     tabBarLabel: 'Tutoring',
     tabBarIcon: () => (
       <Entypo name='graduation-cap' size={24} color={tabColor}/>
+
     )
   };
   render(){

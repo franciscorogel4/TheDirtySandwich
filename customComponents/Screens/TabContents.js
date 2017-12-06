@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, TouchableOpacity, StyleSheet, Text, View, FlatList, Button } from 'react-native';
+import { Alert, Platform, TouchableOpacity, StyleSheet, Text, View, FlatList, Button } from 'react-native';
 import { SearchBar, Card } from 'react-native-elements';
 import { FontAwesome } from '@expo/vector-icons';
 import fire from '../Fire';
@@ -14,18 +14,74 @@ export default class TabContents extends React.Component{
       filteredCellArray: [],
       viewedCellArray: [],
       refreshing: false,
-      cellsShown: 0
+      cellsShown: 0,
+      liked: []
     };
   }
+
+  onFavoriteButtonPressed = (a) => {
+
+    if (this.state.liked[a.key] == 'star-o') {
+        fire.database().ref('empUsers/' + fire.auth().currentUser.uid + '/Favorites/' + a.key).update(a);
+
+        var temp = this.state.liked;
+        temp[a.key] = 'star';
+        this.setState({liked: temp});
+      }
+
+
+    else if (this.state.liked[a.key] == 'star') {
+      fire.database().ref('empUsers/' + fire.auth().currentUser.uid + '/Favorites/' + a.key).remove();
+
+      temp = this.state.liked;
+      temp[a.key] = 'star-o';
+      this.setState({liked: temp});
+   }
+    console.log('onFavoriteButtonPressed');
+  };
+
+
+
   onProfileButtonPressed = () => {
-    this.props.navigation.navigate('Profile');
-    console.log("Profile Button Pressed");
+    var user = fire.auth().currentUser;
+
+    if (user) {
+      this.props.navigation.navigate('Profile');
+      console.log("user is signed in under: " + user.email);
+
+    } else {
+      console.log("User is not signed in ");
+      Alert.alert(
+        'No profile found',
+        'You must have an account to have a profile',
+        [
+          {text: 'Sign Up', onPress: () => this.props.navigation.navigate('SignUp')},
+          {text: 'Sign In', onPress: () => this.props.navigation.navigate('SignIn')},
+          {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+        ],
+        { cancelable: false }
+      )
+    }
   };
 
   onNewListingButtonPressed = () => {
-    this.props.navigation.navigate('CreateListing');
-    console.log("New Listing Button Pressed");
+    var user = fire.auth().currentUser;
+
+    if (user) {
+      console.log("User is signed in: " + user.email);
+      this.props.navigation.navigate('CreateListing');
+
+    } else {
+      console.log("User is not signed in ");
+      Alert.alert("To create a listing you must create an account");
+    }
   };
+
+  onSeeMorePressed = () => {
+    this.props.navigation.navigate('Listing');
+    console.log("listing Button Pressed");
+  };
+
 
   render() {
     return (
@@ -59,16 +115,33 @@ export default class TabContents extends React.Component{
           refreshing={this.state.refreshing} onRefresh={this.refreshListings.bind(this)}
           renderItem={
             ({item}) => {
+
+              if (!this.state.liked[item.key]) {
+                  var temp = this.state.liked;
+                  temp[item.key] = 'star-o';
+                  this.setState({liked: temp});
+              }
+
+
+              fire.database().ref('empUsers/' + fire.auth().currentUser.uid + '/Favorites').once('value').then((snapShot) => {
+
+                if (snapshot.hasChild(item.key)) {
+                  var temp = this.state.liked;
+                  temp[item.key] = 'star';
+                  this.setState({liked: temp});
+                }
+              });
+
               return(
                 <TouchableOpacity styleName="flexible" onPress={() => this.props.navigation.navigate('ListingInfo', {itemKey : item}) }>
                 <Card image={{uri: item.uri}} title={item.title}>
                   <Text>{item.description}</Text>
                   <View style={styles.favoriteButton}>
                     <FontAwesome
-                      name='heart-o'
+                      name={this.state.liked[item.key]}
                       size={32}
-                      color= {ScreenColor.color3}
-                      onPress={() => this.onProfileButtonPressed()}
+                      color= {ScreenColor.color4}
+                      onPress={() => this.onFavoriteButtonPressed(item)}
                       />
                   </View>
                 </Card>
@@ -167,6 +240,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: ScreenColor.color0
+
   },
   topBar: {
     flexDirection: 'row',
@@ -176,13 +250,13 @@ const styles = StyleSheet.create({
     flex: 0.15,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: ScreenColor.color0
+    backgroundColor: ScreenColor.color3
   },
   newListingButton: {
     flex: 0.15,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: ScreenColor.color0
+    backgroundColor: ScreenColor.color3
   },
   statusBarPadding: {
     height: (Platform.OS === 'ios') ? 20: 24,

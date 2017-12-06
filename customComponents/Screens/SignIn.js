@@ -41,8 +41,12 @@ export default class SignIn extends Component{
   };
 
   onContinueAsGuestButtonPressed = () => {
+    var user = fire.auth().currentUser;
+    if (user){
+      fire.auth().signOut();
+    }
     this.props.navigation.navigate('BookTab');
-    Alert.alert("Logged in as a Guest. In order to create a listing, you must make an account.");
+    //Alert.alert("Logged in as a Guest. In order to create a listing, you must make an account.");
     console.log("Continue as Guest button pressed");
   }
 
