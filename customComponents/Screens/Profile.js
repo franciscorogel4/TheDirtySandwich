@@ -39,7 +39,6 @@ constructor(props){
       UserEmail = snap.child("Email").val();
       UserCellPhoneNumber = snap.child("CellPhoneNumber").val();
       UserLocation = snap.child("Location").val();
-<<<<<<< HEAD
 
       that.setState({Name : (UserFirstName+" "+UserLastName)});
       that.setState({Loc : UserLocation});
@@ -54,18 +53,6 @@ constructor(props){
   this.props.navigation.navigate('Favorites', this);
   }
 
-=======
-
-      that.setState({Name : (UserFirstName+" "+UserLastName)});
-      that.setState({Loc : UserLocation});
-      that.setState({PhoneNumber : UserCellPhoneNumber});
-      that.setState({Email : UserEmail});
-
-      that.setState({Initials : (UserFirstName.charAt(0) + UserLastName.charAt(0))});
-    });
-  }
-
->>>>>>> 9136c3514be0d43d4cf00c56d72cfd6b9c96f7ca
   onPressGear = () => {
     this.props.navigation.navigate('Settings');
     console.log("Settings Gear Pressed");
