@@ -33,6 +33,10 @@ constructor(props){
 
     var that = this;
     firebase.database().ref('/empUsers/' + user.uid).on("value", function (snap) {
+<<<<<<< HEAD
+=======
+      console.log("The userID: " + user.uid);
+>>>>>>> origin/master
       UserFirstName = snap.child("FirstName").val();
       UserLastName = snap.child("LastName").val();
       UserEmail = snap.child("Email").val();
@@ -48,6 +52,13 @@ constructor(props){
     });
   }
 
+<<<<<<< HEAD
+=======
+  onFavorites = () => {
+  this.props.navigation.navigate('Favorites', this);
+  }
+
+>>>>>>> origin/master
   onPressGear = () => {
     this.props.navigation.navigate('Settings');
   };
@@ -100,7 +111,10 @@ constructor(props){
           <FormInput
             placeholder= { this.state.Name }
             label='Name'
+<<<<<<< HEAD
             editable= {false}
+=======
+>>>>>>> origin/master
             onChangeText={ (newName) => {this.setState({Name: newName});}}
           />
 
@@ -135,6 +149,7 @@ constructor(props){
             style={{width: 125, height: 50}}
             backgroundColor="#5DBF6C"
             title="Favorites"
+            onPress={() => this.onFavorites()}
           />
           <Button
             style={{width: 125, height: 50}}

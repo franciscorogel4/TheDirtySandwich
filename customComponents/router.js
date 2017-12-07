@@ -8,9 +8,13 @@ import SignUp from './Screens/SignUp';
 import Profile from './Screens/Profile';
 import ResetPassword from './Screens/ResetPassword';
 import ForgotPassword from './Screens/ForgotPassword';
+import Favorites from './Screens/Favorites';
 import Settings from './Screens/Settings';
 import DeleteAccountPage from './Screens/DeleteAccountPage';
 import MyListings from './Screens/MyListings';
+
+import ListingInfo from './Screens/ListingInfo';
+import SwipeScreen from './Screens/SwipeScreen';
 
 import ListingInfo from './Screens/ListingInfo';
 import SwipeScreen from './Screens/SwipeScreen';
@@ -35,6 +39,15 @@ export const InitialStackNavigator = StackNavigator({
       tabBarVisible: false
     }
   },
+<<<<<<< HEAD
+=======
+  Favorites: {
+    screen: Favorites,
+    navigationOptions: {
+      tabBarVisible: false
+    }
+  },
+>>>>>>> origin/master
   ListingInfo: {
     screen: ListingInfo,
     navigationOptions: {

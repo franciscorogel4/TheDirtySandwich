@@ -14,10 +14,37 @@ export default class TabContents extends React.Component{
       filteredCellArray: [],
       viewedCellArray: [],
       refreshing: false,
-      cellsShown: 0
+      cellsShown: 0,
+      liked: []
     };
   }
 
+<<<<<<< HEAD
+=======
+  onFavoriteButtonPressed = (a) => {
+
+    if (this.state.liked[a.key] == 'star-o') {
+        fire.database().ref('empUsers/' + fire.auth().currentUser.uid + '/Favorites/' + a.key).update(a);
+
+        var temp = this.state.liked;
+        temp[a.key] = 'star';
+        this.setState({liked: temp});
+      }
+
+
+    else if (this.state.liked[a.key] == 'star') {
+      fire.database().ref('empUsers/' + fire.auth().currentUser.uid + '/Favorites/' + a.key).remove();
+
+      temp = this.state.liked;
+      temp[a.key] = 'star-o';
+      this.setState({liked: temp});
+   }
+    console.log('onFavoriteButtonPressed');
+  };
+
+
+
+>>>>>>> origin/master
   onProfileButtonPressed = () => {
     var user = fire.auth().currentUser;
 
@@ -91,16 +118,40 @@ export default class TabContents extends React.Component{
           refreshing={this.state.refreshing} onRefresh={this.refreshListings.bind(this)}
           renderItem={
             ({item}) => {
+
+              if (!this.state.liked[item.key]) {
+                  var temp = this.state.liked;
+                  temp[item.key] = 'star-o';
+                  this.setState({liked: temp});
+              }
+
+
+              fire.database().ref('empUsers/' + fire.auth().currentUser.uid + '/Favorites').once('value').then((snapShot) => {
+
+                if (snapshot.hasChild(item.key)) {
+                  var temp = this.state.liked;
+                  temp[item.key] = 'star';
+                  this.setState({liked: temp});
+                }
+              });
+
               return(
                 <TouchableOpacity styleName="flexible" onPress={() => this.props.navigation.navigate('ListingInfo', {itemKey : item}) }>
                 <Card image={{uri: item.uri}} title={item.title}>
                   <Text>{item.description}</Text>
                   <View style={styles.favoriteButton}>
                     <FontAwesome
+<<<<<<< HEAD
                       name='star-o'
                       size={32}
                       color= {ScreenColor.color3}
                       onPress={() => fire.database().ref('empUsers/Paco/favorites').push({item})}
+=======
+                      name={this.state.liked[item.key]}
+                      size={32}
+                      color= {ScreenColor.color4}
+                      onPress={() => this.onFavoriteButtonPressed(item)}
+>>>>>>> origin/master
                       />
                   </View>
                 </Card>

@@ -21,7 +21,8 @@ export default class SignUp extends Component{
       password: "",
       confirmPassword: "",
       location: "",
-      cellPhoneNumber: ""
+      cellPhoneNumber: "",
+      favorites: ""
     }
   }
 
@@ -31,6 +32,7 @@ export default class SignUp extends Component{
     var email = this.state.email;
     var location = this.state.location;
     var cellPhoneNumber = this.state.cellPhoneNumber;
+<<<<<<< HEAD
 
     if ((fname.length === 0 || !fname) &&
         (lname.length === 0 || !lname) &&
@@ -69,6 +71,33 @@ export default class SignUp extends Component{
         console.log("pass and confirm pass are NOT the same ");
         Alert.alert("Passwords do not match. Please try again")
       }
+=======
+    var favorites = this.state.favorites;
+
+    let that = this;
+
+    if(this.state.password.trim() === this.state.confirmPassword.trim()){
+      fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(function(){
+      that.props.navigation.navigate('BookTab');
+
+      var user = fire.auth().currentUser;
+
+      fire.database().ref('empUsers/' + user.uid).set({
+        FirstName: fname,
+        LastName: lname,
+        Email: email,
+        Location: location,
+        CellPhoneNumber: cellPhoneNumber,
+        Favorites: favorites
+      });
+
+      }).catch(function(e){
+        alert(e);
+      })
+    } else {
+      console.log("pass and confirm pass are NOT the same ");
+      Alert.alert("Passwords do not match. Please try again")
+>>>>>>> origin/master
     }
   };
 
