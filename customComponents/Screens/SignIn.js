@@ -73,10 +73,10 @@ export default class SignIn extends Component{
           <Image
             style={{
               alignSelf: 'center',
-              height: 125,
-              width: 370,
+              height: 200,
+              width: 160,
             }}
-            source={require("../../images/NovaEmporium.png")}
+            source={require("../../images/NovaEmporiumLogoCopy.png")}
           />
         </View>
 
@@ -140,13 +140,21 @@ const styles = StyleSheet.create({
     backgroundColor: '#EFEDF1'
   },
   appName: {
-    flex: 1,
-    marginTop:40
+    flex: 3,
+    marginTop: 35,
+    //borderColor: 'red',
+    //borderWidth: 5
   },
   card: {
     flex: 4,
     justifyContent: 'center',
+    marginBottom: 15
+    //borderColor: 'blue',
+    //borderWidth: 5
   },
   bottomButton: {
-    flex: 1  }
+    flex: 1,
+    marginBottom: 15
+
+  }
 });

@@ -10,6 +10,7 @@ import ResetPassword from './Screens/ResetPassword';
 import ForgotPassword from './Screens/ForgotPassword';
 import Settings from './Screens/Settings';
 import DeleteAccountPage from './Screens/DeleteAccountPage';
+import MyListings from './Screens/MyListings';
 
 import ListingInfo from './Screens/ListingInfo';
 import SwipeScreen from './Screens/SwipeScreen';
@@ -54,6 +55,12 @@ export const InitialStackNavigator = StackNavigator({
   },
   Settings: {
     screen: Settings,
+    navigationOptions: {
+      tabBarVisible: false
+    }
+  },
+  MyListings: {
+    screen: MyListings,
     navigationOptions: {
       tabBarVisible: false
     }

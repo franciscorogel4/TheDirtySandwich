@@ -5,7 +5,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import fire from '../Fire';
 import ScreenColor from '../../ScreenColor';
 
-export default class TabContents extends React.Component{
+export default class MyListings extends React.Component{
 
   constructor(props){
     super(props);
@@ -63,30 +63,6 @@ export default class TabContents extends React.Component{
     return (
       <View style={styles.container}>
          <View style={styles.statusBarPadding}/>
-         <View style={styles.topBar}>
-         <View style={styles.profileButton}>
-           <FontAwesome
-             style={{ marginLeft: 5 }}
-             name='user'
-             size={32}
-             color='white'
-             onPress={() => this.onProfileButtonPressed()}
-             />
-         </View>
-            <SearchBar containerStyle={{flex: 1, borderTopWidth: 0, borderBottomWidth: 0}}
-               selectTextOnFocus={true} placeholder='Search' placeholderTextColor={'#8086939e'}
-               onChangeText={(searchText) => {this.searchTextChanged(searchText);}}
-             />
-             <View style={styles.newListingButton}>
-               <FontAwesome
-                 style={{ marginRight: 5 }}
-                 name='plus-square-o'
-                 size={32}
-                 color='white'
-                 onPress={() => this.onNewListingButtonPressed()}
-                 />
-             </View>
-         </View>
         <FlatList data={this.state.filteredCellArray} extraData={this.state}
           refreshing={this.state.refreshing} onRefresh={this.refreshListings.bind(this)}
           renderItem={
@@ -133,13 +109,14 @@ export default class TabContents extends React.Component{
   }
 
   refreshListings(){
+    var user = fire.auth().currentUser;
+
     this.setState({refreshing: true});
-    fire.database().ref('listings/' + this.props.item).once('value').then(
+    fire.database().ref('empUsers/' + user.uid + '/myListings').once('value').then(
       (data) => {
         var dbListings = [];
         data.forEach((node) => {
           dbListings.push(node.val());
-
         });
         this.setState({masterCellArray: dbListings, filteredCellArray: dbListings, cellsShown: 0}, () => {
           this.setState({viewedCellArray: this.createViewedCellArray()}, () => {

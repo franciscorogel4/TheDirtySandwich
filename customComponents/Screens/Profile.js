@@ -33,7 +33,6 @@ constructor(props){
 
     var that = this;
     firebase.database().ref('/empUsers/' + user.uid).on("value", function (snap) {
-      console.log("The userID: " + user.uid);
       UserFirstName = snap.child("FirstName").val();
       UserLastName = snap.child("LastName").val();
       UserEmail = snap.child("Email").val();
@@ -51,8 +50,11 @@ constructor(props){
 
   onPressGear = () => {
     this.props.navigation.navigate('Settings');
-    console.log("Settings Gear Pressed");
   };
+
+  onListingButtonPressed = () => {
+    this.props.navigation.navigate('MyListings');
+  }
 
   // will delete soon. This was for testing. If not deleted, you can remove it
   onPressButton = () =>{
@@ -98,6 +100,7 @@ constructor(props){
           <FormInput
             placeholder= { this.state.Name }
             label='Name'
+            editable= {false}
             onChangeText={ (newName) => {this.setState({Name: newName});}}
           />
 
@@ -105,6 +108,7 @@ constructor(props){
           <FormInput
             placeholder= { this.state.Email }
             label='Email'
+            editable= {false}
             onChangeText={ (newEmail) => {this.setState({ Email: newEmail });}}
           />
 
@@ -112,6 +116,7 @@ constructor(props){
           <FormInput
             placeholder= {this.state.PhoneNumber}
             label='Location'
+            editable= {false}
             onChangeText={ (newLoc) => {this.setState({Loc: newLoc});}}
           />
 
@@ -119,6 +124,7 @@ constructor(props){
           <FormInput
             placeholder= {this.state.Loc}
             label='Phone Number'
+            editable= {false}
             onChangeText={ (newPhoneNumber) => {this.setState({ PhoneNumber: newPhoneNumber });}}
           />
 
@@ -134,6 +140,7 @@ constructor(props){
             style={{width: 125, height: 50}}
             backgroundColor="#5DBF6C"
             title="Listings"
+            onPress={() => this.onListingButtonPressed()}
           />
         </View>
       </View>

@@ -32,28 +32,43 @@ export default class SignUp extends Component{
     var location = this.state.location;
     var cellPhoneNumber = this.state.cellPhoneNumber;
 
-    let that = this;
+    if ((fname.length === 0 || !fname) &&
+        (lname.length === 0 || !lname) &&
+        (location.length === 0 || !location) &&
+        (cellPhoneNumber.length === 0 || !cellPhoneNumber)){
+      console.log("user did not list a first name");
+      Alert.alert(
+        "Missing or Invalid Entry",
+        'Please make sure every line has an entry',
+      )
+    }
+    else{
+      console.log("User DID put a first name");
 
-    if(this.state.password.trim() === this.state.confirmPassword.trim()){
-      fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(function(){
-      that.props.navigation.navigate('BookTab');
 
-      var user = fire.auth().currentUser;
+      let that = this;
 
-      fire.database().ref('empUsers/' + user.uid).set({
-        FirstName: fname,
-        LastName: lname,
-        Email: email,
-        Location: location,
-        CellPhoneNumber: cellPhoneNumber
-      });
+      if(this.state.password.trim() === this.state.confirmPassword.trim()){
+        fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(function(){
+        that.props.navigation.navigate('BookTab');
 
-      }).catch(function(e){
-        alert(e);
-      })
-    } else {
-      console.log("pass and confirm pass are NOT the same ");
-      Alert.alert("Passwords do not match. Please try again")
+        var user = fire.auth().currentUser;
+
+        fire.database().ref('empUsers/' + user.uid).set({
+          FirstName: fname,
+          LastName: lname,
+          Email: email,
+          Location: location,
+          CellPhoneNumber: cellPhoneNumber,
+        });
+
+        }).catch(function(e){
+          alert(e);
+        })
+      } else {
+        console.log("pass and confirm pass are NOT the same ");
+        Alert.alert("Passwords do not match. Please try again")
+      }
     }
   };
 

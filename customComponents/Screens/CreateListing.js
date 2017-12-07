@@ -27,6 +27,7 @@ class Form extends React.Component {
       listingTypeArray: [false, false, false, false, false],
       contactInfoUsingArray: [false, false],
       canSubmit: false,
+      userKey: '',
       title: '',
       price: '',
       description: '',
@@ -189,10 +190,14 @@ class Form extends React.Component {
   }
 
   writeUserData(){
+    var user = fire.auth().currentUser;
+
     if(this.state.canSubmit){
       var updateData = {};
       var listingKey = fire.database().ref('listings/' + this.hasListingType()).push().key;
+      console.log("The listing key: " + listingKey + "\n" + "the user.id key" + user.uid);
       var listingData = {
+        userKey: user.uid,
         description: this.state.description,
         email: (this.hasSavedContactInfo()) ? '' : this.state.altEmail,
         key: listingKey,
@@ -202,6 +207,13 @@ class Form extends React.Component {
         title: this.state.title,
         uri: ''
       };
+
+      var listingKeyObject = {
+        key: listingKey
+      };
+      var UserMylistingKey = fire.database().ref('empUsers/' + user.uid + "/myListings").push().key;
+      updateData['empUsers/' + user.uid + "/myListings/" + UserMylistingKey] = listingKeyObject;
+      console.log("Printing the UserMyListingKeyObject: " + listingKeyObject.toString());
 
       updateData['listings/' + this.hasListingType() + '/' + listingKey] = listingData;
       fire.database().ref().update(updateData).then((acceptValue) => {
