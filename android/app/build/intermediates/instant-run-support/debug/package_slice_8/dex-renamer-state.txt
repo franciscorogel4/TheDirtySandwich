@@ -1,0 +1,4 @@
+#Wed Dec 06 10:07:47 EST 2017
+base.0=/Users/project/Documents/GitHub/TheDirtySandwich/android/app/build/intermediates/transforms/dexMerger/debug/8
+renamed.0=classes.dex
+file.0=/Users/project/Documents/GitHub/TheDirtySandwich/android/app/build/intermediates/transforms/dexMerger/debug/8/classes.dex
