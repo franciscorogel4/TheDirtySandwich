@@ -122,14 +122,16 @@ export default class TabContents extends React.Component{
                   this.setState({liked: temp});
               }
 
-              fire.database().ref('empUsers/' + fire.auth().currentUser.uid + '/Favorites').once('value').then((snapShot) => {
+              if(fire.auth().currentUser){
+                fire.database().ref('empUsers/' + fire.auth().currentUser.uid + '/Favorites').once('value').then((snapShot) => {
 
-                if (snapshot.hasChild(item.key)) {
-                  var temp = this.state.liked;
-                  temp[item.key] = 'star';
-                  this.setState({liked: temp});
-                }
-              });
+                  if (snapshot.hasChild(item.key)) {
+                    var temp = this.state.liked;
+                    temp[item.key] = 'star';
+                    this.setState({liked: temp});
+                  }
+                });
+              }
 
               return(
                 <TouchableOpacity styleName="flexible" onPress={() => this.props.navigation.navigate('ListingInfo', {itemKey : item}) }>
@@ -140,8 +142,13 @@ export default class TabContents extends React.Component{
                       name={this.state.liked[item.key]}
                       size={32}
                       color= {ScreenColor.color4}
-                      onPress={() => this.onFavoriteButtonPressed(item)}
-                      />
+                      onPress={() => {
+                        if(fire.auth().currentUser){
+                          this.onFavoriteButtonPressed(item);
+                        }
+                      }
+                    }
+                    />
                   </View>
                 </Card>
                 </TouchableOpacity>
