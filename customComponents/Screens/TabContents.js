@@ -110,8 +110,9 @@ export default class TabContents extends React.Component{
           renderItem={
             ({item}) => {
 
-              if (!this.state.liked[item.key]) {
-                fire.database().ref('empUsers/' + fire.auth().currentUser.uid + '/Favorites').once('value').then((snapShot) => {
+              if(fire.auth().currentUser){
+                if (!this.state.liked[item.key]) {
+                  fire.database().ref('empUsers/' + fire.auth().currentUser.uid + '/Favorites').once('value').then((snapShot) => {
                   var temp = this.state.liked;
                   if (snapShot.hasChild(item.key))
                     temp[item.key] = 'star';
@@ -120,7 +121,7 @@ export default class TabContents extends React.Component{
                   this.setState({liked: temp});
                 });
               }
-
+            }
               return(
                 <TouchableOpacity styleName="flexible" onPress={() => this.props.navigation.navigate('ListingInfo', {itemKey : item}) }>
                 <Card image={{uri: item.uri}} title={item.title}>
@@ -174,13 +175,6 @@ export default class TabContents extends React.Component{
         var dbListings = [];
         data.forEach((node) => {
           dbListings.push(node.val());
-          /* this is for getting the download url
-          fire.storage().ref().child(node.val().uri).getDownloadURL().then((url) => {
-            console.log('Retrieved url: ' + url);
-          }).catch((error) => {
-            console.log(error.code);
-          });
-          */
         });
         this.setState({masterCellArray: dbListings, filteredCellArray: dbListings, cellsShown: 0}, () => {
           this.setState({viewedCellArray: this.createViewedCellArray()}, () => {
@@ -193,22 +187,6 @@ export default class TabContents extends React.Component{
         console.log(error.code);
       }
     );
-  }
-
-  writeUserData(){
-    /* use for posting to database
-    console.log('writing data...');
-    fire.database().ref('listings/test').set({
-      description: 'Hello',
-      key: 'b',
-      source: pic,
-      title: 'Testing'
-    }).then((value) => {
-      console.log('data wrote. push key: ' + value);
-    },(reason) => {
-        console.log('failed. error: ' + reason)
-    });
-    */
   }
 
   createFilteredArray(filterText, rawArray){
@@ -253,7 +231,7 @@ const styles = StyleSheet.create({
     backgroundColor: ScreenColor.color3
   },
   statusBarPadding: {
-    height: (Platform.OS === 'ios') ? 20: 24,
+    height: (Platform.OS === 'ios') ? 20: 0,
     backgroundColor: '#EFEDF1'
   }
 });

@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     backgroundColor: scrColor
   },
   statusBarPadding: {
-    height: (Platform.OS === 'ios') ? 20: 24,
+    height: (Platform.OS === 'ios') ? 20: 0,
     backgroundColor: '#EFEDF1'
   },
   appName: {

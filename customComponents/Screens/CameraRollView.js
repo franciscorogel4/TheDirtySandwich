@@ -23,7 +23,7 @@ export default class CameraRollView extends React.Component{
         <View style={{backgroundColor: 'steelblue'}}>
           <Text style={styles.numSelectedStyle}>{this.state.numSelected + '/5 Selected'}</Text>
         </View>
-        <FlatList numColumns={4} data={this.state.shownImages} contentContainerStyle={styles.imageGrid} extraData={this.state}
+        <FlatList numColumns={(Platform.OS === 'ios') ? 4: 5} data={this.state.shownImages} contentContainerStyle={styles.imageGrid} extraData={this.state}
           renderItem={(image) =>{
             return(
               <TouchableOpacity onPress={() => {this.selectImage(image.item.uri);}}>
@@ -68,7 +68,7 @@ export default class CameraRollView extends React.Component{
 
   componentWillMount(){
     //this.requestCameraPermission();
-    const cameraRollFetchParams = {first: 20};
+    const cameraRollFetchParams = {first: 100};
     CameraRoll.getPhotos(cameraRollFetchParams).then((data) => {
       this.getImageData(data);
     }).catch((error) => {
@@ -141,11 +141,10 @@ export default class CameraRollView extends React.Component{
 
 const styles = StyleSheet.create({
   imageGrid: {
-    flex: 1,
     margin: 3
   },
   image: {
-    width: 88,
+    width: (Platform.OS === 'ios') 88: 75,
     height: 89,
     margin: 2
   },

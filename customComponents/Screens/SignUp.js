@@ -1,9 +1,7 @@
 import React, {Component} from "react";
-import { Alert, Image, StyleSheet, Text, View } from "react-native";
+import { Alert, Image, StyleSheet, Text, View, ScrollView } from "react-native";
 import { Card, Button, FormLabel, FormInput } from "react-native-elements";
 import fire from '../Fire';
-import 'firebase/database';
-import DB_CONFIG from '../config'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import ScreenColor from '../../ScreenColor';
 
@@ -82,6 +80,7 @@ export default class SignUp extends Component{
   render(){
     return(
       <View style={styles.container}>
+      <ScrollView>
         <Card>
           <FormLabel>First Name</FormLabel>
           <FormInput
@@ -132,6 +131,8 @@ export default class SignUp extends Component{
               onPress={() => this.onSignUpPressed()}
           />
         </Card>
+        <View style={{padding: 10}}/>
+        </ScrollView>
       </View>
     );
   }

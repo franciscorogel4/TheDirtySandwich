@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { View, Text } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import { Card, Button, FormInput, FormLabel } from "react-native-elements";
 import { TextField } from 'react-native-material-textfield';
 import Octicons from 'react-native-vector-icons/Octicons';
@@ -78,6 +78,7 @@ constructor(props){
   render() {
     return (
       <View style={{ flex: 1, paddingVertical: 5, backgroundColor: "#4783B0"}}>
+        <ScrollView>
         <Card title="My Account Info">
         <Octicons
           style={{ color: "grey", marginLeft: 275 }}
@@ -150,6 +151,7 @@ constructor(props){
             onPress={() => this.onListingButtonPressed()}
           />
         </View>
+        </ScrollView>
       </View>
     );
   }
