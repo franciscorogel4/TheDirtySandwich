@@ -21,26 +21,21 @@ export default class TabContents extends React.Component{
 
   onFavoriteButtonPressed = (a) => {
 
+    var temp = this.state.liked;
+
     if (this.state.liked[a.key] == 'star-o') {
         fire.database().ref('empUsers/' + fire.auth().currentUser.uid + '/Favorites/' + a.key).update(a);
-
-        var temp = this.state.liked;
         temp[a.key] = 'star';
-        this.setState({liked: temp});
       }
 
 
     else if (this.state.liked[a.key] == 'star') {
       fire.database().ref('empUsers/' + fire.auth().currentUser.uid + '/Favorites/' + a.key).remove();
-
-      temp = this.state.liked;
       temp[a.key] = 'star-o';
-      this.setState({liked: temp});
    }
+    this.setState({liked: temp});
     console.log('onFavoriteButtonPressed');
   };
-
-
 
   onProfileButtonPressed = () => {
     var user = fire.auth().currentUser;
@@ -82,7 +77,6 @@ export default class TabContents extends React.Component{
     console.log("listing Button Pressed");
   };
 
-
   render() {
     return (
       <View style={styles.container}>
@@ -117,26 +111,20 @@ export default class TabContents extends React.Component{
             ({item}) => {
 
               if (!this.state.liked[item.key]) {
-                  var temp = this.state.liked;
-                  temp[item.key] = 'star-o';
-                  this.setState({liked: temp});
-              }
-
-              if(fire.auth().currentUser){
                 fire.database().ref('empUsers/' + fire.auth().currentUser.uid + '/Favorites').once('value').then((snapShot) => {
-
-                  if (snapshot.hasChild(item.key)) {
-                    var temp = this.state.liked;
+                  var temp = this.state.liked;
+                  if (snapShot.hasChild(item.key))
                     temp[item.key] = 'star';
-                    this.setState({liked: temp});
-                  }
+                  else
+                    temp[item.key] = 'star-o';
+                  this.setState({liked: temp});
                 });
               }
 
               return(
                 <TouchableOpacity styleName="flexible" onPress={() => this.props.navigation.navigate('ListingInfo', {itemKey : item}) }>
                 <Card image={{uri: item.uri}} title={item.title}>
-                  <Text>{item.description}</Text>
+                  <Text>{item.price}</Text>
                   <View style={styles.favoriteButton}>
                     <FontAwesome
                       name={this.state.liked[item.key]}

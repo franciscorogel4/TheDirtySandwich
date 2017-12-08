@@ -62,7 +62,6 @@ export default class MyListings extends React.Component{
   render() {
     return (
       <View style={styles.container}>
-         <View style={styles.statusBarPadding}/>
         <FlatList data={this.state.filteredCellArray} extraData={this.state}
           refreshing={this.state.refreshing} onRefresh={this.refreshListings.bind(this)}
           renderItem={
@@ -187,9 +186,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: ScreenColor.color3
-  },
-  statusBarPadding: {
-    height: (Platform.OS === 'ios') ? 20: 24,
-    backgroundColor: '#EFEDF1'
   }
 });

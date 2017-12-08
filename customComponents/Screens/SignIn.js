@@ -11,6 +11,7 @@ export default class SignIn extends Component{
 
   constructor(props){
     super(props);
+    console.disableYellowBox = true;
     this.state = {
       email: "",
       password: "",

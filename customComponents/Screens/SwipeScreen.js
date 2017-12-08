@@ -9,43 +9,38 @@ const bgColor = ScreenColor.color0;
 export default class SwipeScreen extends Component {
   constructor(props){
     super(props);
+    this.state = {
+      imgUri: ''
+    }
   }
 
   render() {
     console.log('this dot props dot img');
-    console.log(this.props.img);
+    console.log(this.state.imgUri);
     return (
-      <Swiper height={450} style={styles.wrapper} showsButtons>
-        <View style={styles.slide1}>
+      <Swiper height={450} style={styles.wrapper}>
+        <View style={styles.slide}>
           <Image source={require('../sliderImages/professor_pencil.jpg')}/>
         </View>
-        <View style={styles.slide2}>
+        <View style={styles.slide}>
           <Image source={require('../sliderImages/professor_pencil.jpg')}/>
         </View>
-        <View style={styles.slide3}>
+        <View style={styles.slide}>
           <Image source={require('../sliderImages/professor_pencil.jpg')}/>
         </View>
       </Swiper>
     );
+  }
+
+  componentWillMount(){
+    this.setState({imgUri: this.props.img});
   }
 }
 
 const styles = StyleSheet.create({
   wrapper: {
   },
-  slide1: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: bgColor
-  },
-  slide2: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: bgColor
-  },
-  slide3: {
+  slide: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -55,5 +50,9 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 30,
     fontWeight: 'bold'
+  },
+  image: {
+    flex: 1,
+    backgroundColor: 'transparent'
   }
 });

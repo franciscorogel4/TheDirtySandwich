@@ -126,6 +126,12 @@ export const TutorStackNav = StackNavigator({
       tabBarVisible: false
     }
   },
+  ListingInfo: {
+    screen: ListingInfo,
+    navigationOptions: {
+      tabBarVisible: false
+    }
+  },
   Profile: {
     screen: Profile,
     navigationOptions: {
@@ -143,6 +149,12 @@ export const FurnitureStackNav = StackNavigator({
   },
   CreateListing: {
     screen: CreateListing,
+    navigationOptions: {
+      tabBarVisible: false
+    }
+  },
+  ListingInfo: {
+    screen: ListingInfo,
     navigationOptions: {
       tabBarVisible: false
     }
@@ -170,6 +182,12 @@ export const RoommateStackNav = StackNavigator({
   },
   CreateListing: {
     screen: CreateListing,
+    navigationOptions: {
+      tabBarVisible: false
+    }
+  },
+  ListingInfo: {
+    screen: ListingInfo,
     navigationOptions: {
       tabBarVisible: false
     }
@@ -203,6 +221,12 @@ export const CarpoolStackNav = StackNavigator({
   },
   CameraRoll: {
     screen: CameraRollView,
+    navigationOptions: {
+      tabBarVisible: false
+    }
+  },
+  ListingInfo: {
+    screen: ListingInfo,
     navigationOptions: {
       tabBarVisible: false
     }

@@ -1,8 +1,9 @@
 import React, {Component} from "react";
-import { Alert, Image, StyleSheet, View } from "react-native";
+import { Alert, Image, StyleSheet, Text, View } from "react-native";
 import { Card, Button, FormLabel, FormInput } from "react-native-elements";
 import fire from '../Fire';
 import 'firebase/database';
+import DB_CONFIG from '../config'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import ScreenColor from '../../ScreenColor';
 
@@ -30,62 +31,58 @@ export default class SignUp extends Component{
     var email = this.state.email;
     var location = this.state.location;
     var cellPhoneNumber = this.state.cellPhoneNumber;
+    var villanovaEmail = email.substring(email.length-14, email.length);
 
-    if ((fname.length === 0 || !fname) &&
-        (lname.length === 0 || !lname) &&
-        (location.length === 0 || !location) &&
-        (cellPhoneNumber.length === 0 || !cellPhoneNumber)){
-      console.log("user did not list a first name");
+    if(villanovaEmail != '@villanova.edu'){
       Alert.alert(
-        "Missing or Invalid Entry",
-        'Please make sure every line has an entry',
+        'Invaild Email',
+        "Please use your Villanova email",
       )
-    }
-    else{
-      console.log("User DID put a first name");
+      return;
+    } else {
+      console.log("EMAILS THE SAME ");
 
+      if ((fname.length === 0 || !fname) &&
+          (lname.length === 0 || !lname) &&
+          (location.length === 0 || !location) &&
+          (cellPhoneNumber.length === 0 || !cellPhoneNumber)){
+          Alert.alert(
+          "Missing or Invalid Entry",
+          'Please make sure every line has an entry',
+        )
+      }
+      else{
+        let that = this;
 
-      let that = this;
+        if(this.state.password.trim() === this.state.confirmPassword.trim()){
+          fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(function(){
+          that.props.navigation.navigate('BookTab');
 
-      if(this.state.password.trim() === this.state.confirmPassword.trim()){
-        fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(function(){
-        that.props.navigation.navigate('BookTab');
+          var user = fire.auth().currentUser;
 
-        var user = fire.auth().currentUser;
+          fire.database().ref('empUsers/' + user.uid).set({
+            FirstName: fname,
+            LastName: lname,
+            Email: email,
+            Location: location,
+            CellPhoneNumber: cellPhoneNumber,
+          });
 
-        fire.database().ref('empUsers/' + user.uid).set({
-          FirstName: fname,
-          LastName: lname,
-          Email: email,
-          Location: location,
-          CellPhoneNumber: cellPhoneNumber,
-        });
-
-        }).catch(function(e){
-          alert(e);
-        })
-      } else {
-        console.log("pass and confirm pass are NOT the same ");
-        Alert.alert("Passwords do not match. Please try again")
+          }).catch(function(e){
+            alert(e);
+          })
+        } else {
+          console.log("pass and confirm pass are NOT the same ");
+          Alert.alert("Passwords do not match. Please try again")
+        }
       }
     }
   };
 
   render(){
-    /*<View>
-      <Image
-        style={{
-          alignSelf: 'user',
-          height: 50,
-          width: 370,
-        }}
-        source={require("../../images/NovaEmporium.png")}
-      />
-    </View>*/
     return(
       <View style={styles.container}>
         <Card>
-
           <FormLabel>First Name</FormLabel>
           <FormInput
             placeholder="First Name..."
@@ -129,7 +126,7 @@ export default class SignUp extends Component{
           />
 
           <Button
-            buttonStyle={{ marginTop: 20 }}
+            buttonStyle={{ marginTop: 10 }}
               backgroundColor={buttonColor}
               title="SIGN UP"
               onPress={() => this.onSignUpPressed()}

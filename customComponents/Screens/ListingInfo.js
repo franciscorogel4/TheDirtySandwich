@@ -3,7 +3,6 @@ import { StatusBar, Platform, Alert, StyleSheet, View, Image, Text, FlatList} fr
 import { Card, Button, FormLabel } from "react-native-elements";
 import fire from '../Fire';
 import SwipeScreen from './SwipeScreen';
-import Blue from './TabContents';
 import ScreenColor from '../../ScreenColor';
 
 
@@ -21,9 +20,6 @@ export default class CreateListingInfo extends React.Component {
   }
 }
 
-
-
-
 export class ListingInfo extends Component{
 
   constructor(props){
@@ -36,53 +32,30 @@ export class ListingInfo extends Component{
     }
 }
 
-
   componentWillMount() {
     console.log(this.props.navigation.state.params.itemKey.description);
   }
-
-  onSignInPressed = () => {
-    fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then(function(){
-      Alert.alert("you have been signed in");
-    }).catch(function(e){
-        alert(e);
-      })
-    this.props.navigation.navigate('BookTab');
-  };
-
-  onForgetPassword = () => {
-    this.props.navigation.navigate('ForgotPassword');
-    console.log("ForgotPassword Pressed");
-  };
-
-  onSignUpButtonPressed = () => {
-    this.props.navigation.navigate('SignUp');
-    console.log("SignUp Pressed");
-  };
-
 
   render(){
     console.log('img assigned')
     return(
       <View style={[{flex: 1}, {paddingTop: 10}, {paddingBottom: 15}, styles.container]}>
-          <SwipeScreen img={this.props.navigation.state.params.itemKey.uri}/>
+        <SwipeScreen img={this.props.navigation.state.params.itemKey.uri}/>
         <Card>
-
-
           <FormLabel>Description</FormLabel>
-          <Text>{this.props.navigation.state.params.itemKey.description}</Text>
+          <Text style={styles.InfoDisplayView}>{this.props.navigation.state.params.itemKey.description}</Text>
+
           <FormLabel>Price</FormLabel>
-          <Text>{this.props.navigation.state.params.itemKey.price}</Text>
+          <Text style={styles.InfoDisplayView}>{this.props.navigation.state.params.itemKey.price}</Text>
 
           <FormLabel>Location</FormLabel>
-          <Text>{this.props.navigation.state.params.itemKey.location}</Text>
+          <Text style={styles.InfoDisplayView}>{this.props.navigation.state.params.itemKey.location}</Text>
 
           <FormLabel>Email</FormLabel>
-          <Text>{this.props.navigation.state.params.itemKey.email}</Text>
+          <Text style={styles.InfoDisplayView}>{this.props.navigation.state.params.itemKey.email}</Text>
 
           <FormLabel>Phone Number</FormLabel>
-          <Text>{this.props.navigation.state.params.itemKey.phone}</Text>
-
+          <Text style={styles.InfoDisplayView}>{this.props.navigation.state.params.itemKey.phone}</Text>
         </Card>
       </View>
     );
@@ -97,5 +70,9 @@ const styles = StyleSheet.create({
   statusBarPadding: {
     height: (Platform.OS === 'ios') ? 20: 24,
     backgroundColor: '#EFEDF1'
+  },
+  InfoDisplayView: {
+    marginLeft: 30,
+    color: ScreenColor.color3
   }
 });

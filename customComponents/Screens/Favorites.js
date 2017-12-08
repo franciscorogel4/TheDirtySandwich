@@ -22,22 +22,19 @@ export default class Favorites extends React.Component{
 
   onFavoriteButtonPressed = (a) => {
 
+    var temp = this.state.liked;
+
     if (this.state.liked[a.key] == 'star-o') {
         fire.database().ref('empUsers/' + fire.auth().currentUser.uid + '/Favorites/' + a.key).update(a);
-
-        var temp = this.state.liked;
         temp[a.key] = 'star';
-        this.setState({liked: temp});
       }
 
 
     else if (this.state.liked[a.key] == 'star') {
       fire.database().ref('empUsers/' + fire.auth().currentUser.uid + '/Favorites/' + a.key).remove();
-
-      temp = this.state.liked;
       temp[a.key] = 'star-o';
-      this.setState({liked: temp});
    }
+    this.setState({liked: temp});
     console.log('onFavoriteButtonPressed');
   };
 
@@ -131,36 +128,16 @@ refreshListings(){
 render() {
   return (
     <View style={styles.container}>
-       <View style={styles.statusBarPadding}/>
        <View style={styles.topBar}>
-       <View style={styles.profileButton}>
-         <FontAwesome
-           style={{ marginLeft: 5 }}
-           name='user'
-           size={32}
-           color='white'
-           onPress={() => this.onProfileButtonPressed()}
-           />
-       </View>
           <SearchBar containerStyle={{flex: 1, borderTopWidth: 0, borderBottomWidth: 0}}
              selectTextOnFocus={true} placeholder='Search' placeholderTextColor={'#8086939e'}
              onChangeText={(searchText) => {this.searchTextChanged(searchText);}}
            />
-           <View style={styles.newListingButton}>
-             <FontAwesome
-               style={{ marginRight: 5 }}
-               name='plus-square-o'
-               size={32}
-               color='white'
-               onPress={() => this.onNewListingButtonPressed()}
-               />
-           </View>
        </View>
       <FlatList data={this.state.filteredCellArray} extraData={this.state}
         refreshing={this.state.refreshing} onRefresh={this.refreshListings.bind(this)}
         renderItem={
           ({item}) => {
-
 
             if (!this.state.liked[item.key]) {
                 var temp = this.state.liked;
@@ -168,23 +145,12 @@ render() {
                 this.setState({liked: temp});
             }
 
-
-            fire.database().ref('empUsers/' + fire.auth().currentUser.uid + '/Favorites').once('value').then((snapShot) => {
-
-              if (snapshot.hasChild(item.key)) {
-                var temp = this.state.liked;
-                temp[item.key] = 'star';
-                this.setState({liked: temp});
-              }
-            });
-
             return(
               <TouchableOpacity styleName="flexible" onPress={() => this.props.navigation.navigate('ListingInfo', {itemKey : item}) }>
               <Card image={{uri: item.uri}} title={item.title}>
                 <Text>{item.description}</Text>
                 <View style={styles.favoriteButton}>
                   <FontAwesome
-
                     name={this.state.liked[item.key]}
                     size={32}
                     color= {ScreenColor.color4}
@@ -200,7 +166,6 @@ render() {
     </View>
   );
 }
-
 
 createFilteredArray(filterText, rawArray){
   var filteredArray = [];
@@ -219,7 +184,6 @@ createFilteredArray(filterText, rawArray){
   return filteredArray;
 }
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -242,9 +206,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: ScreenColor.color3
-  },
-  statusBarPadding: {
-    height: (Platform.OS === 'ios') ? 20: 24,
-    backgroundColor: '#EFEDF1'
   }
 });
