@@ -27,6 +27,7 @@ class Form extends React.Component {
       listingTypeArray: [false, false, false, false, false],
       contactInfoUsingArray: [false, false],
       canSubmit: false,
+      userKey: '',
       title: '',
       price: '',
       description: '',
@@ -222,6 +223,7 @@ class Form extends React.Component {
       var listingType = this.hasListingType();
       var listingKey = fire.database().ref('listings/' + listingType).push().key;
       var listingData = {
+        userKey: user.uid,
         description: this.state.description,
         email: (this.hasSavedContactInfo()) ? '' : this.state.altEmail,
         key: listingKey,
@@ -231,6 +233,12 @@ class Form extends React.Component {
         title: this.state.title,
         uri: ''
       };
+      var user = fire.auth().currentUser;
+      var listingKeyObject = {
+        key: listingKey
+      };
+      var userListingKey = fire.database().ref('empUsers/' + user.uid + "/myListings").push().key;
+
       if(!(typeof this.state.getUrisFromCameraRollView === 'function')){
         urisToUpload = this.state.getUrisFromCameraRollView.map((item) => {
             return item.uri.uri;
@@ -254,7 +262,9 @@ class Form extends React.Component {
           if(urisToUpload.length == 0){
             listingData.uri = 'https://firebasestorage.googleapis.com/v0/b/novaemporium-5b87b.appspot.com/o/images%2FnoImage.png?alt=media&token=53dd823d-402b-4080-8d56-227ba4fb2353';
           }
+          
           //Uploading listing data to JSON node when all images have been uploaded
+          updateData['empUsers/' + user.uid + "/myListings/" + userListingKey] = listingKeyObject;
           updateData['listings/' + this.hasListingType() + '/' + listingKey] = listingData;
           fire.database().ref().update(updateData).then((acceptValue) => {
             Alert.alert('Listing created successfully', '',

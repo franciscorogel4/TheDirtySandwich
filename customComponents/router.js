@@ -4,6 +4,7 @@ import { StackNavigator, TabNavigator, TabBarBottom } from "react-navigation";
 import { BookTab, FurnitureTab, TutorTab, CarpoolTab, RoommateTab } from './Screens/ListingTabs';
 import CreateListing from './Screens/CreateListing';
 import CameraRollView from './Screens/CameraRollView';
+import MyListings from './Screens/MyListings';
 import SignIn from './Screens/SignIn';
 import SignUp from './Screens/SignUp';
 import Profile from './Screens/Profile';
@@ -64,6 +65,12 @@ export const InitialStackNavigator = StackNavigator({
     screen: Settings,
     navigationOptions: {
       tabBarVisible: false
+    }
+  },
+  MyListings: {
+    screen: MyListings,
+    navigationOptions: {
+    tabBarVisible: false
     }
   },
   DeleteAccountPage: {

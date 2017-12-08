@@ -49,6 +49,10 @@ constructor(props){
     });
   }
 
+  onListingButtonPressed = () => {
+    this.props.navigation.navigate('MyListings');
+  }
+
   onFavorites = () => {
   this.props.navigation.navigate('Favorites', this);
   }
@@ -102,6 +106,7 @@ constructor(props){
           <FormInput
             placeholder= { this.state.Name }
             label='Name'
+            editable= {false}
             onChangeText={ (newName) => {this.setState({Name: newName});}}
           />
 
@@ -109,6 +114,7 @@ constructor(props){
           <FormInput
             placeholder= { this.state.Email }
             label='Email'
+            editable= {false}
             onChangeText={ (newEmail) => {this.setState({ Email: newEmail });}}
           />
 
@@ -116,6 +122,7 @@ constructor(props){
           <FormInput
             placeholder= {this.state.PhoneNumber}
             label='Location'
+            editable= {false}
             onChangeText={ (newLoc) => {this.setState({Loc: newLoc});}}
           />
 
@@ -123,6 +130,7 @@ constructor(props){
           <FormInput
             placeholder= {this.state.Loc}
             label='Phone Number'
+            editable= {false}
             onChangeText={ (newPhoneNumber) => {this.setState({ PhoneNumber: newPhoneNumber });}}
           />
 
@@ -139,6 +147,7 @@ constructor(props){
             style={{width: 125, height: 50}}
             backgroundColor="#5DBF6C"
             title="Listings"
+            onPress={() => this.onListingButtonPressed()}
           />
         </View>
       </View>

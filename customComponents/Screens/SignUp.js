@@ -3,7 +3,6 @@ import { Alert, Image, StyleSheet, View } from "react-native";
 import { Card, Button, FormLabel, FormInput } from "react-native-elements";
 import fire from '../Fire';
 import 'firebase/database';
-import DB_CONFIG from '../config';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import ScreenColor from '../../ScreenColor';
 
@@ -21,8 +20,7 @@ export default class SignUp extends Component{
       password: "",
       confirmPassword: "",
       location: "",
-      cellPhoneNumber: "",
-      favorites: ""
+      cellPhoneNumber: ""
     }
   }
 
@@ -32,31 +30,44 @@ export default class SignUp extends Component{
     var email = this.state.email;
     var location = this.state.location;
     var cellPhoneNumber = this.state.cellPhoneNumber;
-    var favorites = this.state.favorites;
 
-    let that = this;
+    if ((fname.length === 0 || !fname) &&
+        (lname.length === 0 || !lname) &&
+        (location.length === 0 || !location) &&
+        (cellPhoneNumber.length === 0 || !cellPhoneNumber)){
+      console.log("user did not list a first name");
+      Alert.alert(
+        "Missing or Invalid Entry",
+        'Please make sure every line has an entry',
+      )
+    }
+    else{
+      console.log("User DID put a first name");
 
-    if(this.state.password.trim() === this.state.confirmPassword.trim()){
-      fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(function(){
-      that.props.navigation.navigate('BookTab');
 
-      var user = fire.auth().currentUser;
+      let that = this;
 
-      fire.database().ref('empUsers/' + user.uid).set({
-        FirstName: fname,
-        LastName: lname,
-        Email: email,
-        Location: location,
-        CellPhoneNumber: cellPhoneNumber,
-        Favorites: favorites
-      });
+      if(this.state.password.trim() === this.state.confirmPassword.trim()){
+        fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(function(){
+        that.props.navigation.navigate('BookTab');
 
-      }).catch(function(e){
-        alert(e);
-      })
-    } else {
-      console.log("pass and confirm pass are NOT the same ");
-      Alert.alert("Passwords do not match. Please try again")
+        var user = fire.auth().currentUser;
+
+        fire.database().ref('empUsers/' + user.uid).set({
+          FirstName: fname,
+          LastName: lname,
+          Email: email,
+          Location: location,
+          CellPhoneNumber: cellPhoneNumber,
+        });
+
+        }).catch(function(e){
+          alert(e);
+        })
+      } else {
+        console.log("pass and confirm pass are NOT the same ");
+        Alert.alert("Passwords do not match. Please try again")
+      }
     }
   };
 

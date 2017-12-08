@@ -5,7 +5,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import fire from '../Fire';
 import ScreenColor from '../../ScreenColor';
 
-export default class TabContents extends React.Component{
+export default class MyListings extends React.Component{
 
   constructor(props){
     super(props);
@@ -14,33 +14,9 @@ export default class TabContents extends React.Component{
       filteredCellArray: [],
       viewedCellArray: [],
       refreshing: false,
-      cellsShown: 0,
-      liked: []
+      cellsShown: 0
     };
   }
-
-  onFavoriteButtonPressed = (a) => {
-
-    if (this.state.liked[a.key] == 'star-o') {
-        fire.database().ref('empUsers/' + fire.auth().currentUser.uid + '/Favorites/' + a.key).update(a);
-
-        var temp = this.state.liked;
-        temp[a.key] = 'star';
-        this.setState({liked: temp});
-      }
-
-
-    else if (this.state.liked[a.key] == 'star') {
-      fire.database().ref('empUsers/' + fire.auth().currentUser.uid + '/Favorites/' + a.key).remove();
-
-      temp = this.state.liked;
-      temp[a.key] = 'star-o';
-      this.setState({liked: temp});
-   }
-    console.log('onFavoriteButtonPressed');
-  };
-
-
 
   onProfileButtonPressed = () => {
     var user = fire.auth().currentUser;
@@ -87,60 +63,20 @@ export default class TabContents extends React.Component{
     return (
       <View style={styles.container}>
          <View style={styles.statusBarPadding}/>
-         <View style={styles.topBar}>
-         <View style={styles.profileButton}>
-           <FontAwesome
-             style={{ marginLeft: 5 }}
-             name='user'
-             size={32}
-             color='white'
-             onPress={() => this.onProfileButtonPressed()}
-             />
-         </View>
-            <SearchBar containerStyle={{flex: 1, borderTopWidth: 0, borderBottomWidth: 0}}
-               selectTextOnFocus={true} placeholder='Search' placeholderTextColor={'#8086939e'}
-               onChangeText={(searchText) => {this.searchTextChanged(searchText);}}
-             />
-             <View style={styles.newListingButton}>
-               <FontAwesome
-                 style={{ marginRight: 5 }}
-                 name='plus-square-o'
-                 size={32}
-                 color='white'
-                 onPress={() => this.onNewListingButtonPressed()}
-                 />
-             </View>
-         </View>
         <FlatList data={this.state.filteredCellArray} extraData={this.state}
           refreshing={this.state.refreshing} onRefresh={this.refreshListings.bind(this)}
           renderItem={
             ({item}) => {
-
-              if (!this.state.liked[item.key]) {
-                  var temp = this.state.liked;
-                  temp[item.key] = 'star-o';
-                  this.setState({liked: temp});
-              }
-
-              fire.database().ref('empUsers/' + fire.auth().currentUser.uid + '/Favorites').once('value').then((snapShot) => {
-
-                if (snapshot.hasChild(item.key)) {
-                  var temp = this.state.liked;
-                  temp[item.key] = 'star';
-                  this.setState({liked: temp});
-                }
-              });
-
               return(
                 <TouchableOpacity styleName="flexible" onPress={() => this.props.navigation.navigate('ListingInfo', {itemKey : item}) }>
                 <Card image={{uri: item.uri}} title={item.title}>
                   <Text>{item.description}</Text>
                   <View style={styles.favoriteButton}>
                     <FontAwesome
-                      name={this.state.liked[item.key]}
+                      name='star-o'
                       size={32}
-                      color= {ScreenColor.color4}
-                      onPress={() => this.onFavoriteButtonPressed(item)}
+                      color= {ScreenColor.color3}
+                      onPress={() => fire.database().ref('empUsers/Paco/favorites').push({item})}
                       />
                   </View>
                 </Card>
@@ -173,19 +109,14 @@ export default class TabContents extends React.Component{
   }
 
   refreshListings(){
+    var user = fire.auth().currentUser;
+
     this.setState({refreshing: true});
-    fire.database().ref('listings/' + this.props.item).once('value').then(
+    fire.database().ref('empUsers/' + user.uid + '/myListings').once('value').then(
       (data) => {
         var dbListings = [];
         data.forEach((node) => {
           dbListings.push(node.val());
-          /* this is for getting the download url
-          fire.storage().ref().child(node.val().uri).getDownloadURL().then((url) => {
-            console.log('Retrieved url: ' + url);
-          }).catch((error) => {
-            console.log(error.code);
-          });
-          */
         });
         this.setState({masterCellArray: dbListings, filteredCellArray: dbListings, cellsShown: 0}, () => {
           this.setState({viewedCellArray: this.createViewedCellArray()}, () => {
