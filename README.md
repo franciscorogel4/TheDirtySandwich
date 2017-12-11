@@ -14,7 +14,7 @@ Nova Emporium provides a simple feature set that still allows users to find what
 |<img src="https://raw.githubusercontent.com/franciscorogel4/TheDirtySandwich/master/images/logIn.png" width="250">|
 <img src="https://raw.githubusercontent.com/franciscorogel4/TheDirtySandwich/master/images/carpool.png" width="250">|
 <img src="https://raw.githubusercontent.com/franciscorogel4/TheDirtySandwich/master/images/createListing.png" width="250">|
-:---:|:---:|:---:
+|:---:|:---:|:---:|
 |<img src="https://raw.githubusercontent.com/franciscorogel4/TheDirtySandwich/master/images/selectImg.png" width="250">|
 <img src="https://raw.githubusercontent.com/franciscorogel4/TheDirtySandwich/master/images/bookmark.png" width="250">|
 <img src="https://raw.githubusercontent.com/franciscorogel4/TheDirtySandwich/master/images/deleteAccount.png" width="250">|
