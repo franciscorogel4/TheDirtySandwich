@@ -20,9 +20,8 @@ Nova Emporium provides a simple feature set that still allows users to find what
 <img src="https://raw.githubusercontent.com/franciscorogel4/TheDirtySandwich/master/images/deleteAccount.png" width="250"> |
 
 # Technology
-<img width="200">
-<img src="http://geekycentral.com/wp-content/uploads/2017/09/react-native.png" width="250">
-<img src="https://firebase.google.com/images/social.png" width="310">
+|<img src="http://geekycentral.com/wp-content/uploads/2017/09/react-native.png" width="250">|
+<img src="https://firebase.google.com/images/social.png" width="310">|
 
 We at Team DirtySandwich value the ability for users to access their information and applications on multiple platforms. We do not want to exclude any of the student body from accessing our service, and thus we opted to create our app using Facebook's [React Native.](https://facebook.github.io/react-native/) React Native allows us to create a multi-platform app using one codebase with flags which determine the use of platform specific features. By using CSS styling in a mobile app, we can easily move GUI elements and allow the app to adjust to varying screen sizes. Using React Native allows us to create a simple and elegant interface for a high quality user experience. 
 
