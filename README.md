@@ -1,4 +1,3 @@
-<img width="340">
 <img src="https://github.com/franciscorogel4/TheDirtySandwich/blob/master/images/NovaEmporiumLogoCopy.png?raw=true" width="250">
 
 # What is Nova Emporium?
@@ -11,12 +10,13 @@ Nova Emporium provides a simple feature set that still allows users to find what
 * View specific listing information
 * **(Requires Account)** Listing creation in 5 categories: books, furniture, tutoring, carpool, and roommate finding
 * **(Requires Account)** Bookmark listings to view at a later date
-<img src="https://raw.githubusercontent.com/franciscorogel4/TheDirtySandwich/master/images/logIn.png" width="250">
-<img src="https://raw.githubusercontent.com/franciscorogel4/TheDirtySandwich/master/images/carpool.png" width="250">
-<img src="https://raw.githubusercontent.com/franciscorogel4/TheDirtySandwich/master/images/createListing.png" width="250">
-<img src="https://raw.githubusercontent.com/franciscorogel4/TheDirtySandwich/master/images/selectImg.png" width="250">
-<img src="https://raw.githubusercontent.com/franciscorogel4/TheDirtySandwich/master/images/bookmark.png" width="250">
-<img src="https://raw.githubusercontent.com/franciscorogel4/TheDirtySandwich/master/images/deleteAccount.png" width="250">
+|<img src="https://raw.githubusercontent.com/franciscorogel4/TheDirtySandwich/master/images/logIn.png" width="250">|
+<img src="https://raw.githubusercontent.com/franciscorogel4/TheDirtySandwich/master/images/carpool.png" width="250">|
+<img src="https://raw.githubusercontent.com/franciscorogel4/TheDirtySandwich/master/images/createListing.png" width="250">|
+|:---:|:---:|:---:|
+|<img src="https://raw.githubusercontent.com/franciscorogel4/TheDirtySandwich/master/images/selectImg.png" width="250">|
+<img src="https://raw.githubusercontent.com/franciscorogel4/TheDirtySandwich/master/images/bookmark.png" width="250">|
+<img src="https://raw.githubusercontent.com/franciscorogel4/TheDirtySandwich/master/images/deleteAccount.png" width="250">|
 
 # Technology
 <img width="200">
